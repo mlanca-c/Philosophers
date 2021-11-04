@@ -13,7 +13,7 @@ PROJECT := Philosophers
 # Project Variables
 # **************************************************************************** #
 
-NAME1 := ...
+NAME1 := philo
 
 NAMES := ${NAME1}
 
@@ -32,23 +32,25 @@ NAMES := ${NAME1}
 # command like if VERBOSE was set to 3.
 VERBOSE := 1
 
-GREEN := \e[38;5;118m
-YELLOW := \e[38;5;226m
-RESET := \e[0m
-_SUCCESS := [${GREEN}SUCCESS${RESET}]
-_INFO := [${YELLOW}INFO${RESET}]
+GREEN	:= \e[38;5;118m
+YELLOW	:= \e[38;5;226m
+RED		:= \e[38;5;9m
+RESET	:= \e[0m
+
+_SUCCESS	:= [${GREEN} ok ${RESET}]
+_FAILURE	:= [${RED} ko ${RESET}]
+_INFO		:= [${YELLOW} info ${RESET}]
 
 # **************************************************************************** #
 # Compiler and Flags
 # **************************************************************************** #
 
-CC := gcc
-CLIB := ar -rc
+CC		:= gcc
 
-CFLAGS := -Wall -Wextra -Werror
-DFLAGS := -g
-OFLAGS := -03
-FSANITIZE := -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror
+DFLAGS		:= -g
+#OFLAGS		:= -03
+FSANITIZE	:= -fsanitize=address
 
 # **************************************************************************** #
 # Root Folders
@@ -57,25 +59,13 @@ FSANITIZE := -fsanitize=address
 SRC_ROOT := sources/
 OBJ_ROOT := objects/
 INC_ROOT := includes/
-LIB_ROOT := libraries/
-BIN_ROOT := binaries/
-
-# **************************************************************************** #
-# Libraries
-# **************************************************************************** #
-
-LIBFT_DIR := ${LIB_ROOT}libft/
-LIBFT := libft.a
-
-MLX := minilibx_mms 
-
-LIBS := ${LIBFT_DIR} ${MLX}
+BIN_ROOT := ./
 
 # **************************************************************************** #
 # Content Folders
 # **************************************************************************** #
 
-DIRS := ...
+DIRS := ./
 
 SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
 SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
@@ -83,12 +73,7 @@ SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
 SRC_DIRS = $(subst :,${SPACE},${SRC_DIRS_LIST})
 OBJ_DIRS = $(subst ${SRC_ROOT},${OBJ_ROOT},${SRC_DIRS})
 
-INC_DIRS = ${INC_ROOT} ${LIBS}
-
-LIB_DIRS_LIST := ${addprefix ${LIB_ROOT},${LIBS}}
-LIB_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
-
-LIB_DIRS = $(subst :,${SPACE},${LIB_DIRS_LIST})
+INC_DIRS = ${INC_ROOT}
 
 # **************************************************************************** #
 # Files
@@ -112,22 +97,15 @@ BINS := ${addprefix ${BIN_ROOT},${NAMES}}
 vpath %.o ${OBJ_ROOT}
 vpath %.h ${INC_ROOT}
 vpath %.c ${SRC_DIRS}
-vpath %.a ${LIB_DIRS}
 
 # **************************************************************************** #
 # Conditions
 # **************************************************************************** #
 
-ifneq (${MLX},)
-	ifeq ($(shell uname), Linux)
-		MLX = minilibx_linux
-		MLX_FLAGS = -lbsd -Llibraries/$(MLX) -lmlx -lXext -lX11 -lm -DOS=2
-	else ifeq ($(shell uname), Darwin)
-		MLX = minilibx_mms
-		MLX_FLAGS = -Ilibraries/$(MLX) -L${LIB_ROOT}/$(MLX) -lmlx -DOS=1
-		MLX_CP = cp ./${LIB_ROOT}/$(CURR_MLX)/libmlx.dylib ./
-	endif
-endif
+#ifneq (${MLX},)
+#	ifeq ($(shell uname), Linux)
+#	else ifeq ($(shell uname), Darwin)
+#endif
 
 ifeq (${VERBOSE}, 0)
 	MAKEFLAGS += --silent
@@ -155,58 +133,30 @@ SPACE = ${NULL} #
 .PHONY: all
 all: ${BINS}
 
-${BIN_ROOT}${NAME1}: ${OBJS}
-	${AT} ${CC} ${CFLAGS} ${INCS} ${OBJS} ${LIBS} -o $@ ${BLOCK}
-	${AT}printf "${_SUCCESS} ${@F} CREATED\n"
-
-# **************************************************************************** #
-# Library Targets
-# **************************************************************************** #
-
-.PHONY: minilibx
-minilibx:
-	${AT} ${MAKE} -C ${LIB_ROOT}${MLX} ${BLOCK}
-	${AT} ${MLX_CP} ${BLOCK}
-	CFLAGS += ${MLX_FLAGS} ${OFLAGS}
-
-${LIB_ROOT}${LIBFT}:
-	${AT} ${MAKE} -C ${LIBFT_DIR} ${BLOCK}
-
-.PHONY: add_libft
-add_libft:
-	${AT} git submodule add git@github.com:mlanca-c/libft_v2.git ${LIBFT_DIR} ${BLOCK}
-	${AT} git commit -m "Created submodule libft - automatic" ${BLOCK}
-	${AT} printf "${_INFO} LIBFT CREATED\n" ${BLOCK}
-
-.PHONY: remove_libft
-remove_libft:
-	${AT} git rm --cached ${LIBFT_DIR} ${BLOCK}
-	${AT} rm -rf .git/modules/${LIBFT_DIR} ${BLOCK}
-	${AT} git commit -m "Removed submodule libft - automatic" ${BLOCK}
-	${AT} rm -rf ${LIBFT_DIR} ${BLOCK}
-	${AT} printf "${_INFO} LIBFT REMOVED\n" ${BLOCK}
-
-.PHONY: update_libft
-update_libft:
-	${AT} git submodule update ${LIBFT_DIR} ${BLOCK}
-	${AT} git commit -m "Updated submodule libft - automatic" ${BLOCK}
-	${AT} printf "${_INFO} LIBFT UPDATED\n" ${BLOCK}
+${BIN_ROOT}${NAME1}: cl ${OBJS}
+	${AT} ${CC} ${CFLAGS} ${INCS} ${OBJS} -o $@ ${BLOCK}
+	${AT}printf "Object files created .................. ${_SUCCESS}\n" ${BLOCK}
+	${AT}printf "Binary file compiled .................. ${_SUCCESS}\n" ${BLOCK}
+	${AT}printf "Binary file ready ..................... ${_SUCCESS}\n" ${BLOCK}
 
 # **************************************************************************** #
 # Clean Targets
 # **************************************************************************** #
 
+.PHONY: cl
+cl:
+	${AT}clear ${BLOCK}
+
 .PHONY: clean
-clean:
+clean: cl
 	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
 	${AT}find ${OBJ_ROOT} -type f -delete ${BLOCK}
-	${AT}printf "$(_INFO) CLEANED ${OBJ_ROOT}\n" ${BLOCK}
+	${AT}printf "Object files removed .................. ${_SUCCESS}\n" ${BLOCK}
 
 .PHONY: fclean
-fclean: clean
-	${AT}mkdir -p ${BIN_ROOT} ${BLOCK}
-	${AT}find ${LIB_ROOT} -type f -delete ${BLOCK}
-	${AT}printf "$(_INFO) REMOVED ${NAMES}\n" ${BLOCK}
+fclean: cl clean
+	${AT} rm -f ${NAMES} ${BLOCK}
+	${AT}printf "Binary file removed ................... ${_SUCCESS}\n" ${BLOCK}
 
 .PHONY: re
 re: fclean all
@@ -228,28 +178,32 @@ debug_re: fclean debug
 # **************************************************************************** #
 
 .PHONY: norm
-norm:
+norm: cl
 	${AT} norminette ${SRCS} ${INC_ROOT} ${BLOCK}
+	${AT}printf "Target working accordingly ............ ${_SUCCESS}\n" ${BLOCK}
 
 .PHONY: norm_status
-norm_status:
-	${AT} printf "FILES No: " ${BLOCK}
+norm_status: cl
+	${AT} printf "[${YELLOW} FILES No ${RESET}]: " ${BLOCK}
 	${AT} norminette ${SRCS} ${INC_ROOT}|wc -l ${BLOCK}
-	${AT} printf "OK: " ${BLOCK}
+	${AT} printf "${_SUCCESS}: " ${BLOCK}
 	${AT} norminette ${SRCS} ${INC_ROOT}|grep -wc "OK" ${BLOCK}
+	${AT}printf "Target working accordingly ............ ${_SUCCESS}\n" ${BLOCK}
 
 # **************************************************************************** #
 # Setup Targets
 # **************************************************************************** #
 
-.PHONY: .init
-.init:
-	${AT}clear ${BLOCK}
-	${AT}printf "${_INFO} CREATING FOLDERS\n" ${BLOCK}
+.PHONY: folders
+folders: cl
 	${AT}mkdir -p ${SRC_ROOT} ${BLOCK}
 	${AT}mkdir -p ${INC_ROOT} ${BLOCK}
 	${AT}mkdir -p ${OBJ_ROOT} ${BLOCK}
-	${AT}mkdir -p ${LIB_ROOT} ${BLOCK}
+	${AT}printf "Project folders created ............... ${_SUCCESS}\n" ${BLOCK}
+
+.PHONY: .init
+.init: cl folders
+	${AT}clear ${BLOCK}
 	${AT}printf "${_INFO} CREATING README.md\n" ${BLOCK}
 	${AT}git clone git@github.com:${USER}/Generic-README.git ${BLOCK}
 	${AT}mv Generic-README/README.md ./ ${BLOCK}
@@ -265,7 +219,7 @@ norm_status:
 	${AT}git branch -M main ${BLOCK}
 	${AT}git remote add origin git@github.com:${USER}/${PROJECT}.git ${BLOCK}
 	${AT}git push -u origin main ${BLOCK}
-	${AT}printf "${_SUCCESS} SETUP READY\n" ${BLOCK}
+	${AT}printf "Initial setup ready ................... ${_SUCCESS}\n" ${BLOCK}
 	${AT}git status ${BLOCK}
 
 # **************************************************************************** #
