@@ -11,7 +11,7 @@
 # Cloning
 
  ```
- git clone <--recursive> git@github.com:mlanca-c/Philosophers.git
+ git clone git@github.com:mlanca-c/Philosophers.git
  cd Philosophers
  make all
  ```
