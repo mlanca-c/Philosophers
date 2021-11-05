@@ -130,6 +130,10 @@ SPACE = ${NULL} #
 # Mandatory Targets
 # **************************************************************************** #
 
+${OBJ_ROOT}%.o: ${SRC_ROOT}%.c
+	${CC} ${CFLAGS} ${INCS} -c $< -o $@ ${BLOCK}
+	
+
 .PHONY: all
 all: ${BINS}
 
@@ -230,15 +234,15 @@ folders: cl
 # Target Templates
 # **************************************************************************** #
 
-define make_bin
-${1} : ${2}
-endef
+#define make_bin
+#${1} : ${2}
+#endef
 
-define make_obj
-${1} : ${2}
-	$${AT}mkdir -p $${@D} $${BLOCK}
-	$${AT} $${CC} $${CFLAGS} $${INCS} -c $$< -o $$@ $${BLOCK}
-endef
+#define make_obj
+#${1} : ${2}
+#	$${AT}mkdir -p $${@D} $${BLOCK}
+#	$${AT} $${CC} $${CFLAGS} $${INCS} -c $$< -o $$@ $${BLOCK}
+#endef
 
 # **************************************************************************** #
 # Target Generator
