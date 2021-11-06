@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/05 20:07:42 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/06 22:07:58 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,18 @@ void	error_message(char *message)
 /*
 ** This function is called once the simulation ends - either a philosopher dies
 ** or every philosopher ate the maximum amount of times it could.
-** The function frees all allocated memory and then exits with EXIT_SUCCESS.
+** The function frees all allocated memory and destroys all threads and mutex.
+** Finally, it exits the program with EXIT_SUCCESS.
 **
 ** @param	t_ctrl	*control	- main struct of the program. Some of the
 ** 								variables it contains need to be freed.
 */
 void	exit_program(t_ctrl *control)
 {
+	//destroy all threads;
+	free(control->philosophers);
+	//destroy all mutexes;
+	free(control->forks);
 	free(control);
 	exit(EXIT_SUCCESS);
 }
