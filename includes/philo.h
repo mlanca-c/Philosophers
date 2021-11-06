@@ -33,13 +33,13 @@
 typedef int				t_bool;
 
 /*
-** This typedef serves only as an abreviation of the original pthread_mutex_t
+** This typedef serves only as an abbreviation of the original pthread_mutex_t
 ** for t_mutex.
 */
 typedef pthread_mutex_t	t_mutex;
 
 /*
-** This typedef serves only as an abreviation of the original pthread_t for
+** This typedef serves only as an abbreviation of the original pthread_t for
 ** t_thread.
 */
 typedef pthread_t		t_thread;
@@ -61,7 +61,7 @@ typedef enum e_status
 ** from the bowl of spaghetti.
 ** Every fork will have:
 ** 		- name (int) : number ID of the fork.
-** 		- used (t_bool) : boolean wich will indicate if the fork's already taken
+** 		- used (t_bool) : boolean which will indicate if the fork's already taken
 ** 						by a philosopher.
 ** 		- mutex (t_mutex) : mutex to protect the fork from being taken more for
 **						more than one philosopher.
