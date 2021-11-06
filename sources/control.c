@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/05 19:13:30 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/06 22:31:01 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /*
 ** This function initiates struct s_control (t_ctrl). It parses the user's input
-** into the struct. It then returns the struct without creating the
-** philosophers.
-**		DISCLAIMER: the ft_atoi() function returns a 0 in case of not receiving
-**					any digit arguments.
+** into the struct. It then calls the init_forks() function to allocate the
+** necessary space for all the forks and initialize each accordingly; and then
+** does the same for the philosophersi by calling the init_philosophers()
+** function.
 **
 ** @param	int		argc	- argument counter.
 ** @param	char	*argv	- command line input provided by the user.
@@ -41,6 +41,8 @@ t_ctrl	*init_control(int argc, char **argv)
 	if (argc != i)
 		control->nu_of_time_to_eat = ft_atoi(argv[i]);
 	else
-		control->nu_of_time_to_eat = 0;
+		control->nu_of_time_to_eat = -1;
+	//control->forks = init_forks(control->nu_of_philo);
+	//control->philosophers = init_philosophers(control);
 	return (control);
 }

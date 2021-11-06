@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/06 22:02:07 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/06 22:33:50 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ t_ctrl	*init_control(int argc, char **argv);
 /*
 ** philo.c Functions
 */
-t_philo	*init_philos(t_ctrl *control);
+t_philo	*init_philosophers(t_ctrl *control);
 
 #endif //PHILO_H
