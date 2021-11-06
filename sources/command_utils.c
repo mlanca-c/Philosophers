@@ -52,8 +52,8 @@ void	error_message(char *message)
 ** The function frees all allocated memory and destroys all threads and mutex.
 ** Finally, it exits the program with EXIT_SUCCESS.
 **
-** @param	t_ctrl	*control	- main struct of the program. Some of the
-** 								variables it contains need to be freed.
+** @param	t_ctrl	*control	- main struct of the program. Some variables
+** 								it contains need to be freed.
 */
 void	exit_program(t_ctrl *control)
 {
