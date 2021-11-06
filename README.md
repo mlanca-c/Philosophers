@@ -11,8 +11,8 @@
 # Cloning
 
  ```
- git clone git@github.com:mlanca-c/Philosophers.git
- cd Philosophers
+ git clone git@github.com:mlanca-c/Philosophers.git philo
+ cd philo
  make all
  ```
  
