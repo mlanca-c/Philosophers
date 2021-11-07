@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:55:59 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/06 19:33:32 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/07 16:09:15 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 /*
 ** Bold Colors
 */
-# define ANSI_BBLACK	"\033[30;1m"
 # define ANSI_BRED		"\033[31;1m"
 # define ANSI_BGREEN	"\033[32;1m"
 # define ANSI_BYELLOW	"\033[33;1m"
@@ -33,7 +32,6 @@
 /*
 ** Foreground Colors
 */
-# define ANSI_BLACK		"\033[30m"
 # define ANSI_RED		"\033[31m"
 # define ANSI_GREEN		"\033[32m"
 # define ANSI_YELLOW	"\033[33m"
@@ -45,7 +43,6 @@
 /*
 ** Background Colors
 */
-# define ANSI_B_BLACK	"\033[40;1m"
 # define ANSI_B_RED		"\033[41;1m"
 # define ANSI_B_GREEN	"\033[42;1m"
 # define ANSI_B_YELLOW	"\033[43;1m"

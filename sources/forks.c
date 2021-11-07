@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:37:38 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/06 22:43:43 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/07 16:05:05 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_fork	*init_forks(int number_of_forks)
 	while (i < number_of_forks)
 	{
 		forks[i].used = FALSE;
-		forks[i].name = i;
+		forks[i].name = i + 1;
 		i++;
 	}
 	return (forks);
