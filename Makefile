@@ -50,7 +50,10 @@ CC		:= gcc
 CFLAGS		:= -Wall -Wextra -Werror
 DFLAGS		:= -g
 #OFLAGS		:= -03
+TFLAGS		:= -pthread
 FSANITIZE	:= -fsanitize=address
+
+CFLAGS		+= ${TFLAGS}
 
 # **************************************************************************** #
 # Root Folders

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/06 22:33:50 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/07 13:24:24 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,11 @@ void	exit_program(t_ctrl *control);
 ** control.c Functions
 */
 t_ctrl	*init_control(int argc, char **argv);
+
+/*
+** forks.c Function
+*/
+t_fork	*init_forks(int number_of_forks);
 
 /*
 ** philo.c Functions
