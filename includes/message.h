@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:52:39 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/06 19:43:25 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/08 10:20:03 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 # define MESSAGE_H
 
 /*
-** Error messages
+** Error codes for exit_program() function.
+*/
+# define NO_ERRORS			0
+# define ERROR_MUTEX		1
+# define ERROR_THREAD		2
+
+/*
+** Error messages for error_message() function.
 */
 # define MALLOC_ERROR		"failed at allocating memory.\n"
 # define INVALID_ARGS_NUM	"invalid arguments, wrong number of arguments\n"

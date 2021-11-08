@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/08 09:32:17 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/08 10:25:27 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,10 @@ int		ft_atoi(const char *str);
 */
 void	help_message(void);
 void	error_message(char *message);
-void	exit_program(t_ctrl *control);
+void	exit_program(t_ctrl *control, int message);
 
 /*
-** control.c Functions
+** control.c Function
 */
 t_ctrl	*init_control(int argc, char **argv);
 
@@ -144,8 +144,25 @@ t_ctrl	*init_control(int argc, char **argv);
 t_fork	*init_forks(int number_of_forks);
 
 /*
-** philosophers.c Functions
+** philosophers.c Function
 */
 t_philo	*init_philosophers(t_ctrl *control);
+
+/*
+** get_time.c Function
+*/
+int		get_time();
+
+/*
+** create_mutex.c Functions
+*/
+void	create_mutex(t_ctrl *control);
+void	destroy_mutex(t_ctrl *control);
+
+/*
+** create_threads.c Functions
+*/
+void	create_threads(t_ctrl *control);
+void	destroy_threads(t_ctrl *control);
 
 #endif //PHILO_H
