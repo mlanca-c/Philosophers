@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/07 16:06:40 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/08 09:32:17 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_fork
 ** 		- control (t_ctrl) : main program variable that contains all the
 ** 							program's information.
 */
-typedef struct s_philosophers
+typedef struct s_philosopher
 {
 	int					name;
 	char				*color;
