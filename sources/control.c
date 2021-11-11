@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/07 16:06:15 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/11 16:09:49 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ctrl	*init_control(int argc, char **argv)
 		control->nu_of_time_to_eat = ft_atoi(argv[i]);
 	else
 		control->nu_of_time_to_eat = -1;
-	control->forks = init_forks(control->nu_of_philo);
+	//control->forks = init_forks(control->nu_of_philo);
 	control->philosophers = init_philosophers(control);
 	return (control);
 }

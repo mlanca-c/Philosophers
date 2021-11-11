@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/08 10:25:27 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/11 16:09:15 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
 # include "ansi.h"
 # include "message.h"
 
@@ -27,22 +28,17 @@
 
 /*
 ** This typedef creates a specific type of integer number (int) called t_bool.
-** This variable type will only have the values indicated by the macros TRUE and
+** This data type will only have the values indicated by the macros TRUE and
 ** FALSE.
 */
 typedef int				t_bool;
 
 /*
-** This typedef serves only as an abbreviation of the original pthread_mutex_t
-** for t_mutex.
+** This typedef creates a specific type of integer number (int) called t_time.
+** This data type will represent only integer values relative to time -
+** in this case milliseconds.
 */
-typedef pthread_mutex_t	t_mutex;
-
-/*
-** This typedef serves only as an abbreviation of the original pthread_t for
-** t_thread.
-*/
-typedef pthread_t		t_thread;
+typedef long unsigned	t_time;
 
 /*
 ** This enumeration has all the possible states a philosopher can have.
@@ -60,45 +56,47 @@ typedef enum e_status
 ** philosopher has a fork. And each philosopher needs two forks in order to eat
 ** from the bowl of spaghetti.
 ** Every fork will have:
-** 		- name (int) : number ID of the fork.
+** 		- id (int) : number ID of the fork.
 ** 		- used (t_bool) : boolean which will indicate if the fork's already taken
 ** 						by a philosopher.
-** 		- mutex (t_mutex) : mutex to protect the fork from being taken more for
-**						more than one philosopher.
-*/
 typedef struct s_fork
 {
-	int		name;
+	int		id;
 	t_bool	used;
-	t_mutex	mutex;
 }	t_fork;
+*/
 
 /*
 ** This struct represents a philosopher. As such the struct contains the
 ** following attributes:
-** 		- name (int) : number ID of the philosopher.
+** 		- id (int) : number ID of the philosopher.
 ** 		- color (char *) : color of the philosopher - so that the output of the
 ** 						program is colored - ANSI_H.
 ** 		- thread (t_thread) : thread each philosopher represents.
 ** 		- status (t_status) : status of the philosopher.
+**		- last_ate (t_time) : time the philosopher ate last.
 ** 		- times_philo_ate (int) : number of times a philosopher already ate from
 ** 								the bowl of spaghetti.
+**		- is_dead (t_bool) : indicates if the philosopher is dead.
 ** 		- control (t_ctrl) : main program variable that contains all the
 ** 							program's information.
 */
 typedef struct s_philosopher
 {
-	int					name;
+	int					id;
 	char				*color;
-	t_thread			*thread;
+	//pthread_t			*thread;
 	t_status			status;
+	t_time				last_ate;
 	int					times_philo_ate;
+	t_bool				is_dead;
 	struct s_control	*control;
 }	t_philo;
 
 /*
 ** This is the main struct of the project. As such it contains the following
 ** variables:
+**		- start_time (t_time) : simulation start time.
 ** 		- nu_of_philo (int) : number of philosophers at the table.
 ** 		- time_to_die (int) : time a philosopher can go without eating.
 ** 		- time_to_eat (int) : time it takes for a philosopher to eat.
@@ -106,17 +104,19 @@ typedef struct s_philosopher
 ** 		- nu_of_time_to_eat (int) : maximum number of times a philosopher needs
 ** 									to eat.
 ** 		- philosophers (t_philo *) : list of all the philosophers.
+**		- mutex	
 ** 		- forks (t_forks *) : list of all the forks.
 */
 typedef struct s_control
 {
-	int		nu_of_philo;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		nu_of_time_to_eat;
-	t_philo	*philosophers;
-	t_fork	*forks;
+	int				start_time;
+	int				nu_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				nu_of_time_to_eat;
+	pthread_t		*threads;
+	pthread_mutex_t	*mutexes;
 }	t_ctrl;
 
 /*
@@ -151,7 +151,7 @@ t_philo	*init_philosophers(t_ctrl *control);
 /*
 ** get_time.c Function
 */
-int		get_time();
+t_time	get_time(void);
 
 /*
 ** create_mutex.c Functions
@@ -165,4 +165,5 @@ void	destroy_mutex(t_ctrl *control);
 void	create_threads(t_ctrl *control);
 void	destroy_threads(t_ctrl *control);
 
+void	*say_hello(void *control);
 #endif //PHILO_H

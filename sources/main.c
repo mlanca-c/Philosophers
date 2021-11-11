@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:38:41 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/08 10:18:21 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/10 16:59:37 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char *argv[])
 		error_message(INVALID_ARGS_NUM);
 	control = init_control(argc, argv);
 	if (control->nu_of_philo == 1)
-		create_one_thread(control);
+		create_threads(control);
 	/*
 	else
 		create_threads(control);

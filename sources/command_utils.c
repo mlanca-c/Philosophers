@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/09 16:12:43 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/11 16:21:53 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ void	exit_program(t_ctrl *control, int message)
 {
 	if (message != ERROR_MUTEX)
 		destroy_mutex(control);
-	if (message != ERROR_THREADS && message != ERROR_MUTEX)
+	if (message != ERROR_THREAD && message != ERROR_MUTEX)
 		destroy_threads(control);
 	free(control->philosophers);
-	free(control->forks);
 	free(control);
 	exit(EXIT_SUCCESS);
 }

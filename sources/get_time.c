@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   get_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 22:37:38 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/11 15:50:10 by mlanca-c         ###   ########.fr       */
+/*   Created: 2021/11/10 16:47:54 by mlanca-c          #+#    #+#             */
+/*   Updated: 2021/11/11 19:40:43 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 /*
 */
-t_fork	*init_forks(int number_of_forks)
+t_time	get_time(void)
 {
-	t_fork	*forks;
-	int		i;
+	struct timeval	time;
 
-	forks = (t_fork *)ft_malloc(sizeof(t_fork) * number_of_forks,
-			error_message);
-	i = 0;
-	while (i < number_of_forks)
-	{
-		forks[i].used = FALSE;
-		forks[i].id = i + 1;
-		i++;
-	}
-	return (forks);
+	gettimeofday(&time, NULL);
+	return ((t_time)(time.tv_sec * 1000 + time.tv_usec / 1000));
+}
+
+/// TO DELETE
+void	*say_hello(void *control)
+{
+	static int	i = 0;
+
+	printf("Hello %d\n", i++);
+	return (control);
 }
