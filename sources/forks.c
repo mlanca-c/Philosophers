@@ -6,14 +6,13 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:37:38 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/11 15:50:10 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 10:42:03 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-*/
 t_fork	*init_forks(int number_of_forks)
 {
 	t_fork	*forks;
@@ -30,3 +29,4 @@ t_fork	*init_forks(int number_of_forks)
 	}
 	return (forks);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:38:41 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/10 16:59:37 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 12:15:08 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,15 @@
 int	main(int argc, char *argv[])
 {
 	t_ctrl	*control;
+	t_philo	*philosophers;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "--help"))
 		help_message();
 	else if (argc != 5 && argc != 6)
 		error_message(INVALID_ARGS_NUM);
 	control = init_control(argc, argv);
-	if (control->nu_of_philo == 1)
-		create_threads(control);
-	/*
-	else
-		create_threads(control);
-	*/
+	philosophers = NULL;
+	if (control->nu_of_philo)
+		philosophers = init_philosophers(control);
 	exit_program(control, NO_ERRORS);
 }

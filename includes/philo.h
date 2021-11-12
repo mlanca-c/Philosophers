@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/11 16:09:15 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 12:14:37 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,48 +52,6 @@ typedef enum e_status
 }	t_status;
 
 /*
-** This struct represents a fork. In the philosopher's dinner problem, each
-** philosopher has a fork. And each philosopher needs two forks in order to eat
-** from the bowl of spaghetti.
-** Every fork will have:
-** 		- id (int) : number ID of the fork.
-** 		- used (t_bool) : boolean which will indicate if the fork's already taken
-** 						by a philosopher.
-typedef struct s_fork
-{
-	int		id;
-	t_bool	used;
-}	t_fork;
-*/
-
-/*
-** This struct represents a philosopher. As such the struct contains the
-** following attributes:
-** 		- id (int) : number ID of the philosopher.
-** 		- color (char *) : color of the philosopher - so that the output of the
-** 						program is colored - ANSI_H.
-** 		- thread (t_thread) : thread each philosopher represents.
-** 		- status (t_status) : status of the philosopher.
-**		- last_ate (t_time) : time the philosopher ate last.
-** 		- times_philo_ate (int) : number of times a philosopher already ate from
-** 								the bowl of spaghetti.
-**		- is_dead (t_bool) : indicates if the philosopher is dead.
-** 		- control (t_ctrl) : main program variable that contains all the
-** 							program's information.
-*/
-typedef struct s_philosopher
-{
-	int					id;
-	char				*color;
-	//pthread_t			*thread;
-	t_status			status;
-	t_time				last_ate;
-	int					times_philo_ate;
-	t_bool				is_dead;
-	struct s_control	*control;
-}	t_philo;
-
-/*
 ** This is the main struct of the project. As such it contains the following
 ** variables:
 **		- start_time (t_time) : simulation start time.
@@ -103,9 +61,8 @@ typedef struct s_philosopher
 ** 		- time_to_sleep (int) : time it takes for a philosopher to sleep.
 ** 		- nu_of_time_to_eat (int) : maximum number of times a philosopher needs
 ** 									to eat.
-** 		- philosophers (t_philo *) : list of all the philosophers.
-**		- mutex	
-** 		- forks (t_forks *) : list of all the forks.
+**		- threads (pthread_t *) : list of the project's threads.
+**		- mutexes (pthread_mutex_t *) : list of the project's mutextes.
 */
 typedef struct s_control
 {
@@ -120,11 +77,36 @@ typedef struct s_control
 }	t_ctrl;
 
 /*
+** This struct represents a philosopher. As such the struct contains the
+** following attributes:
+** 		- id (int) : number ID of the philosopher.
+** 		- color (char *) : color of the philosopher - so that the output of the
+** 						program is colored - ANSI_H.
+** 		- status (t_status) : status of the philosopher.
+**		- last_ate (t_time) : time the philosopher ate last.
+** 		- times_philo_ate (int) : number of times a philosopher already ate from
+** 								the bowl of spaghetti.
+**		- is_dead (t_bool) : indicates if the philosopher is dead.
+** 		- control (t_ctrl) : main program variable that contains all the
+** 							program's information.
+*/
+typedef struct s_philosopher
+{
+	int			id;
+	char		*color;
+	t_status	status;
+	t_time		last_ate;
+	int			times_philo_ate;
+	t_bool		is_dead;
+	t_ctrl		*control;
+}	t_philo;
+
+/*
 **  libft Functions
 */
 void	*ft_malloc(int size, void (*error_message)(char *));
 int		ft_strcmp(char *s1, char *s2);
-int		ft_atoi(const char *str);
+int		ft_atoi(char *str);
 
 /*
 ** command_utils.c Functions
@@ -139,9 +121,17 @@ void	exit_program(t_ctrl *control, int message);
 t_ctrl	*init_control(int argc, char **argv);
 
 /*
-** forks.c Function
+** create_mutex.c Functions
 */
-t_fork	*init_forks(int number_of_forks);
+void	init_mutex(t_ctrl *control);
+void	destroy_mutex(t_ctrl *control);
+
+/*
+** create_threads.c Functions
+*/
+void	malloc_threads(t_ctrl *control);
+void	init_thread(t_ctrl *control, t_philo *philosopher);
+void	destroy_threads(t_ctrl *control);
 
 /*
 ** philosophers.c Function
@@ -153,17 +143,7 @@ t_philo	*init_philosophers(t_ctrl *control);
 */
 t_time	get_time(void);
 
-/*
-** create_mutex.c Functions
-*/
-void	create_mutex(t_ctrl *control);
-void	destroy_mutex(t_ctrl *control);
+// TESTING FUNCTION
+void	*say_hello(void *philos);
 
-/*
-** create_threads.c Functions
-*/
-void	create_threads(t_ctrl *control);
-void	destroy_threads(t_ctrl *control);
-
-void	*say_hello(void *control);
 #endif //PHILO_H

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:47:54 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/11 19:40:43 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 11:58:08 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ t_time	get_time(void)
 }
 
 /// TO DELETE
-void	*say_hello(void *control)
+void	*say_hello(void *philo)
 {
-	static int	i = 0;
+	t_philo	*philosopher;
 
-	printf("Hello %d\n", i++);
-	return (control);
+	philosopher = (t_philo *)philo;
+	printf("Hello %d\n", philosopher->id);
+	free(philosopher);
+	return ("OK\n");
 }

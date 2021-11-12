@@ -6,45 +6,45 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 09:57:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/10 17:08:32 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 12:26:53 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	create_threads(t_ctrl *control)
+/*
+** This function is called by the init_control() function. The malloc_threads()
+** function allocates the necessary space for the control->threads - list of
+** threads.
+**
+** @param	t_ctrl	*control	- main struct of the program. Contains all
+** 								necessary program variables.
+*/
+void	malloc_threads(t_ctrl *control)
 {
 	int	i;
 
-	i = 0;
-	while (i < control->nu_of_philo)
-	{
-		printf("F\n");
-		if (pthread_create(control->philosophers[i].thread, NULL, say_hello,
-				(void *)control))
-		{
-			while (i)
-				pthread_detach(*control->philosophers[i--].thread);
-			printf("Destroyed Threads ...\n");
-			exit_program(control, ERROR_THREAD);
-		}
-		if (pthread_join(*control->philosophers[i].thread, NULL))
-		{
-			while (i)
-				pthread_detach(*control->philosophers[i--].thread);
-			printf("Destroyed Threads ...\n");
-			exit_program(control, ERROR_THREAD);
-		}
-		i++;
-	}
-	printf("Created Threads ...\n");
+	i = control->nu_of_philo;
+	control->threads = (pthread_t *)ft_malloc(sizeof(pthread_t) * i,
+			error_message);
 }
 
-void	destroy_threads(t_ctrl *control)
+/*
+** This function is called by the init_philosophers() function. The
+** create_threads() creates a thread, gives it a function - 'simulation()' and a
+** parameter for that function - the philosopher associated with the thread.
+**
+** @param	t_ctrl	*control	- main struct of the program. Contains all
+** 								necessary program variables.
+** @param	t_philo *philosopher	- philosopher struct. It will be the param
+** 									given to the simulation() function.
+*/
+void	init_thread(t_ctrl *control, t_philo *philosopher)
 {
-	int	i;
+	static int	i = 0;
 
-	i = 0;
-	while (i < control->nu_of_philo)
-		pthread_detach(*control->philosophers[i++].thread);
+	if (pthread_create(&control->threads[i], NULL, &say_hello,
+			(void *)philosopher))
+		exit_program(control, ERROR_THREAD);
+	i++;
 }

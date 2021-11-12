@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:52:39 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/08 10:20:03 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/12 11:03:24 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define INVALID_ARGS_ALPHA	"invalid arguments, using non-integers arguments.\n"
 # define MUTEX_ERROR		"failed at creating new mutex.\n"
 # define THREAD_ERROR		"failed at creating new thread.\n"
+# define NO_PHILO			"program needs to have at least one philosopher.\n"
+# define TOO_MANY_PHILO		"program can't have more than 200 philosophers.\n"
 
 /*
 ** Simulation messages

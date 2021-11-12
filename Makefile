@@ -59,10 +59,11 @@ CFLAGS		+= ${TFLAGS}
 # Root Folders
 # **************************************************************************** #
 
-SRC_ROOT := sources/
-OBJ_ROOT := objects/
-INC_ROOT := includes/
-BIN_ROOT := ./
+SRC_ROOT	:= sources/
+OBJ_ROOT	:= objects/
+INC_ROOT	:= includes/
+BIN_ROOT	:= ./
+TEST_ROOT	:= tests/
 
 # **************************************************************************** #
 # Content Folders
@@ -179,6 +180,15 @@ debug: CFLAGS += ${DFLAGS}
 debug: all
 
 debug_re: fclean debug
+
+# **************************************************************************** #
+# Test Targets
+# **************************************************************************** #
+
+.PHONY: run_invalid_arg
+run_invalid_arg: re cl
+	${AT}bash ${TEST_ROOT}invalid_arg.sh ${BLOCK}
+	${AT}printf "Bash file compiled .................... ${_SUCCESS}\n" ${BLOCK}
 
 # **************************************************************************** #
 # Norminette Targets
