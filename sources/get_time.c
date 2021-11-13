@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:47:54 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 15:39:43 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 16:15:20 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	*say_hello(void *philo)
 	t_philo	*philosopher;
 
 	philosopher = (t_philo *)philo;
+	pthread_mutex_lock(&philosopher->control->print);
 	printf("|%lums\t| Philosopher %d says Hello\n", get_time(philosopher->control), philosopher->id);
+	pthread_mutex_unlock(&philosopher->control->print);
 	return ("OK\n");
 }

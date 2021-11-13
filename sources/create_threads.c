@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 09:57:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 15:40:24 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 16:25:49 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	malloc_threads(t_ctrl *control)
 ** create_threads() creates a thread, gives it a function - 'simulation()' and a
 ** parameter for that function - the philosopher associated with the thread.
 **
-** @param	t_ctrl	*control	- main struct of the program. Contains all
-** 								necessary program variables.
+** @param	t_ctrl	*control		- main struct of the program. Contains all
+** 									necessary program variables.
 ** @param	t_philo *philosopher	- philosopher struct. It will be the param
 ** 									given to the simulation() function.
 */
@@ -46,6 +46,8 @@ void	init_thread(t_ctrl *control, t_philo *philosopher)
 	if (pthread_create(&control->threads[i], NULL, &say_hello,
 			(void *)philosopher))
 		exit_program(control, ERROR_THREAD);
-	i++;
+	if (pthread_join(control->threads[i], NULL))
+		exit_program(control, ERROR_THREAD);
 	free(philosopher);
+	i++;
 }

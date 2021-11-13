@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:56 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:56:13 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_control
 	int				nu_of_time_to_eat;
 	pthread_t		*threads;
 	pthread_mutex_t	*mutexes;
+	pthread_mutex_t	print;
+	pthread_mutex_t	dead;
 }	t_ctrl;
 
 /*
