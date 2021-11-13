@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 09:57:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/12 12:26:53 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:40:24 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void	init_thread(t_ctrl *control, t_philo *philosopher)
 			(void *)philosopher))
 		exit_program(control, ERROR_THREAD);
 	i++;
+	free(philosopher);
 }

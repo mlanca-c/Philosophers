@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/12 12:11:04 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:36:30 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	exit_program(t_ctrl *control, int message)
 {
 	if (message != ERROR_MUTEX)
 		destroy_mutex(control);
+	free(control->mutexes);
+	free(control->threads);
 	free(control);
 	exit(EXIT_SUCCESS);
 }

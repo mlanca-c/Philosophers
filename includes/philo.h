@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/12 12:14:37 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:35:56 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ typedef enum e_status
 ** 		- nu_of_time_to_eat (int) : maximum number of times a philosopher needs
 ** 									to eat.
 **		- threads (pthread_t *) : list of the project's threads.
-**		- mutexes (pthread_mutex_t *) : list of the project's mutextes.
+**		- mutexes (pthread_mutex_t *) : list of the project's mutexes.
 */
 typedef struct s_control
 {
-	int				start_time;
+	t_time			start_time;
 	int				nu_of_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -136,12 +136,13 @@ void	destroy_threads(t_ctrl *control);
 /*
 ** philosophers.c Function
 */
-t_philo	*init_philosophers(t_ctrl *control);
+void	init_philosophers(t_ctrl *control);
 
 /*
 ** get_time.c Function
 */
-t_time	get_time(void);
+t_time	get_time(t_ctrl *control);
+t_time	get_current_time(void);
 
 // TESTING FUNCTION
 void	*say_hello(void *philos);

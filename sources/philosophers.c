@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:31:51 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/12 12:30:10 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:14:33 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ char	*get_philos_color(int id)
 }
 
 /*
-** This function initializes a struct s_philosopher - t_philo according to the
-** number of philos. It allocates the necessary space for a t_philo type and
-** then it sets all t_philo attributes to its default:
+** This function's while loop allocates the necessary memory space for a struct
+** s_philosopher - t_philo type. Then sets all its attributes to default.
 ** 	- id: it's set to the index of the philosophers - 1 in the 'control' list.
 ** 	- color: it's set to a certain color depending on the philos id using the
 ** 			get_philos_color() function.
@@ -49,14 +48,13 @@ char	*get_philos_color(int id)
 ** 	- last_ate: it's set to -1, cause the philosopher hasn't eaten yet.
 ** 	- times_philo_ate: it's set to 0.
 ** 	- is_dead: it's set to FALSE.
-** It then calls the init_thread() function to create a thread that will go to
-** the simulation() function with the philosopher as its parameter.
-** @return
-** 		- The init_philosophers() function returns the list of philosophers to
-** 		the control variable or exits the program with EXIT_FAILURE in case of
-** 		error.
+** Then calls the init_thread() function to create the threads that will go to.
+** the simulation() function with the philosopher - t_philo - as its parameter.
+** 
+** @param	t_ctrl	*control	- main variable of the program. It contains the
+** 								threads list, not initialized but allocated.
 */
-t_philo	*init_philosophers(t_ctrl *control)
+void	init_philosophers(t_ctrl *control)
 {
 	t_philo	*philo;
 	int		i;
@@ -75,5 +73,4 @@ t_philo	*init_philosophers(t_ctrl *control)
 		init_thread(control, philo);
 		i++;
 	}
-	return (philo);
 }

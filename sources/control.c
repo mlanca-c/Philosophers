@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/12 12:12:45 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 14:55:04 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ t_ctrl	*init_control(int argc, char **argv)
 		control->nu_of_time_to_eat = -1;
 	init_mutex(control);
 	malloc_threads(control);
+	control->start_time = get_current_time();
 	return (control);
 }
