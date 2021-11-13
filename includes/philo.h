@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 15:56:13 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:25:28 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <sys/time.h>
 # include "ansi.h"
 # include "message.h"
@@ -74,8 +75,8 @@ typedef struct s_control
 	int				nu_of_time_to_eat;
 	pthread_t		*threads;
 	pthread_mutex_t	*mutexes;
-	pthread_mutex_t	print;
-	pthread_mutex_t	dead;
+	pthread_mutex_t	*print;
+	pthread_mutex_t	*dead;
 }	t_ctrl;
 
 /*
@@ -136,15 +137,26 @@ void	init_thread(t_ctrl *control, t_philo *philosopher);
 void	destroy_threads(t_ctrl *control);
 
 /*
-** philosophers.c Function
+** philosophers.c Functions
 */
 void	init_philosophers(t_ctrl *control);
+void	init_philosopher(t_ctrl *control);
 
 /*
 ** get_time.c Function
 */
 t_time	get_time(t_ctrl *control);
 t_time	get_current_time(void);
+
+/*
+** simulation.c Function
+*/
+void	*simulation_one_philosopher(void *philo);
+
+/*
+ * print_action.c Function
+*/
+void	print_action(char *message, t_philo *philosopher);
 
 // TESTING FUNCTION
 void	*say_hello(void *philos);

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:31:51 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 16:25:55 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:50:54 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,26 @@ void	init_philosophers(t_ctrl *control)
 		init_thread(control, philo);
 		i++;
 	}
+}
+
+/*
+*/
+void	init_philosopher(t_ctrl *control)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ft_malloc(sizeof(t_philo), error_message);
+	philo->id = 1;
+	philo->color = ANSI_MAGENTA;
+	philo->status = THINKING;
+	philo->last_ate = -1;
+	philo->times_philo_ate = 0;
+	philo->is_dead = FALSE;
+	philo->control = control;
+	if (pthread_create(&control->threads[0], NULL, &simulation_one_philosopher,
+			(void *)philo))
+		exit_program(control, ERROR_THREAD);
+	if (pthread_join(control->threads[0], NULL))
+		exit_program(control, ERROR_THREAD);
+	free(philo);
 }

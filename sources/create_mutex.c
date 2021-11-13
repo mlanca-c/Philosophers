@@ -6,7 +6,7 @@
 /*   By: mlanca-c <mlanca-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:04:26 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 15:57:29 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:26:26 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,12 @@ void	init_mutex(t_ctrl *control)
 		}
 		i++;
 	}
-	pthread_mutex_init(&control->print, NULL);
-	pthread_mutex_init(&control->dead, NULL);
+	control->print = (pthread_mutex_t *)ft_malloc(sizeof(pthread_mutex_t),
+			error_message);
+	pthread_mutex_init(control->print, NULL);
+	control->dead = (pthread_mutex_t *)ft_malloc(sizeof(pthread_mutex_t),
+			error_message);
+	pthread_mutex_init(control->dead, NULL);
 }
 
 /*
