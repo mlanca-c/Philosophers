@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 17:25:28 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/14 13:58:22 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef long unsigned	t_time;
 */
 typedef enum e_status
 {
+	HAS_FORKS,
 	EATING,
 	SLEEPING,
 	THINKING,
@@ -73,6 +74,7 @@ typedef struct s_control
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nu_of_time_to_eat;
+	t_bool			deaths;
 	pthread_t		*threads;
 	pthread_mutex_t	*mutexes;
 	pthread_mutex_t	*print;
@@ -139,24 +141,33 @@ void	destroy_threads(t_ctrl *control);
 /*
 ** philosophers.c Functions
 */
-void	init_philosophers(t_ctrl *control);
 void	init_philosopher(t_ctrl *control);
+void	init_philosophers(t_ctrl *control);
 
 /*
-** get_time.c Function
+** get_time.c Functions
 */
 t_time	get_time(t_ctrl *control);
 t_time	get_current_time(void);
 
 /*
-** simulation.c Function
+** simulation.c Functions
 */
-void	*simulation_one_philosopher(void *philo);
+void	*simulation_one_philosopher(void *arg);
+void	*simulation(void *arg)
 
 /*
- * print_action.c Function
+** print_action.c Function
 */
 void	print_action(char *message, t_philo *philosopher);
+
+/*
+*/
+void	philo_think(t_philo *philo);
+void	philo_take_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	philo_leave_forks(t_philo *philo);
+void	philo_sleep(t_philo *philo);
 
 // TESTING FUNCTION
 void	*say_hello(void *philos);

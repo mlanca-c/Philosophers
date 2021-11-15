@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:31:51 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 17:50:54 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/14 12:39:02 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	init_philosophers(t_ctrl *control)
 		philo->id = i + 1;
 		philo->color = get_philos_color(i + 1);
 		philo->status = THINKING;
-		philo->last_ate = -1;
+		philo->last_ate = control->start_time;
 		philo->times_philo_ate = 0;
 		philo->is_dead = FALSE;
 		philo->control = control;
@@ -85,7 +85,7 @@ void	init_philosopher(t_ctrl *control)
 	philo->id = 1;
 	philo->color = ANSI_MAGENTA;
 	philo->status = THINKING;
-	philo->last_ate = -1;
+	philo->last_ate = control->start_time;
 	philo->times_philo_ate = 0;
 	philo->is_dead = FALSE;
 	philo->control = control;
