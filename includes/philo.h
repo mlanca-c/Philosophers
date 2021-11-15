@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/14 13:58:22 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/15 18:43:25 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef enum e_status
 ** 		- time_to_die (int) : time a philosopher can go without eating.
 ** 		- time_to_eat (int) : time it takes for a philosopher to eat.
 ** 		- time_to_sleep (int) : time it takes for a philosopher to sleep.
-** 		- nu_of_time_to_eat (int) : maximum number of times a philosopher needs
+** 		- nu_meals (int) : maximum number of times a philosopher needs
 ** 									to eat.
 **		- threads (pthread_t *) : list of the project's threads.
 **		- mutexes (pthread_mutex_t *) : list of the project's mutexes.
@@ -69,11 +69,11 @@ typedef enum e_status
 typedef struct s_control
 {
 	t_time			start_time;
+	t_time			time_to_die;
+	t_time			time_to_eat;
+	t_time			time_to_sleep;
 	int				nu_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nu_of_time_to_eat;
+	int				nu_meals;
 	t_bool			deaths;
 	pthread_t		*threads;
 	pthread_mutex_t	*mutexes;
@@ -89,8 +89,9 @@ typedef struct s_control
 ** 						program is colored - ANSI_H.
 ** 		- status (t_status) : status of the philosopher.
 **		- last_ate (t_time) : time the philosopher ate last.
-** 		- times_philo_ate (int) : number of times a philosopher already ate from
-** 								the bowl of spaghetti.
+** 		- last_action (t_time) : time of the last action the philosopher did.
+** 		- meal_times (int) : number of times a philosopher already ate from the
+** 								bowl of spaghetti.
 **		- is_dead (t_bool) : indicates if the philosopher is dead.
 ** 		- control (t_ctrl) : main program variable that contains all the
 ** 							program's information.
@@ -99,9 +100,10 @@ typedef struct s_philosopher
 {
 	int			id;
 	char		*color;
-	t_status	status;
-	t_time		last_ate;
-	int			times_philo_ate;
+	//t_status	status;
+	t_time		last_meal;
+	t_time		last_action;
+	int			meal_times;
 	t_bool		is_dead;
 	t_ctrl		*control;
 }	t_philo;
@@ -147,19 +149,21 @@ void	init_philosophers(t_ctrl *control);
 /*
 ** get_time.c Functions
 */
-t_time	get_time(t_ctrl *control);
 t_time	get_current_time(void);
+t_time	get_time(t_time time);
+void	ft_wait(t_time time, t_philo *philo);
 
 /*
 ** simulation.c Functions
 */
 void	*simulation_one_philosopher(void *arg);
-void	*simulation(void *arg)
+void	*simulation(void *arg);
+t_bool	is_dead(t_philo *philo);
 
 /*
 ** print_action.c Function
 */
-void	print_action(char *message, t_philo *philosopher);
+void	print_action(char *message, t_philo *philo);
 
 /*
 */

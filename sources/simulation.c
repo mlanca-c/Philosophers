@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:46:47 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/14 13:45:23 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/15 18:57:41 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,33 @@
 */
 void	*simulation_one_philosopher(void *arg)
 {
-	t_philo	*philosopher;
-	t_ctrl	*control;
+	t_philo	*philo;
 
-	philosopher = (t_philo *)arg;
-	pthread_mutex_lock(philosopher->control->print);
-	control = philosopher->control;
-	printf("|%dms\t|%sPhilosopher %d", 0, philosopher->color, philosopher->id);
-	printf(ANSI_RESET "\t%s\n", FORK);
-	usleep(philosopher->control->time_to_die * 1000);
-	printf("|%dms\t|%sPhilosopher %d", control->time_to_die, philosopher->color,
-		philosopher->id);
-	printf(ANSI_RESET "\t%s\n", DIE);
-	pthread_mutex_unlock(philosopher->control->print);
-	return (EXIT_SUCCESS);
+	philo = (t_philo *)arg;
+	print_action(FORK, philo);
+	ft_wait(philo->control->time_to_die, philo);
+	print_action(DIE, philo);
+	return (0);
 }
 
 /*
 */
-void	*simulation(void *arg)
-{
-	t_philo	*philo;
+void	*simulation(void *arg);
 
-	philo = (t_ctrl *)arg;
-	while (!philo->control->deaths)
+/*
+** This function checks if the philosopher - 'philo' is dead.
+** The check_dead() function checks if the period of time the philosopher -
+** 'philo' has gone without eating hasn't surpassed the time the philo can go
+** without a meal.
+**
+** @param	t_philo	*philo	- philosopher in case.
+*/
+t_bool	is_dead(t_philo *philo)
+{
+	if (get_time(philo->last_meal) > philo->control->time_to_die)
 	{
-		philo_think(philo);
-		philo_take_forks(philo);
-		philo_eat(philo);
-		philo_leave_forks(philo);
-		if (philo->control->nu_of_time_to_eat && 
-			philo->times_philo_ate == philo->control->nu_of_time_to_eat)
-			break ;
-		philo_sleep(philo);
+		philo->control->deaths = TRUE;
+		return (TRUE);
 	}
-	return (EXIT_SUCCESS);
+	return (FALSE);
 }

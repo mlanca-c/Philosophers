@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/14 13:42:11 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/15 18:23:26 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ t_ctrl	*init_control(int argc, char **argv)
 		error_message(NO_PHILO);
 	if (control->nu_of_philo > 200)
 		error_message(TOO_MANY_PHILO);
-	control->time_to_die = ft_atoi(argv[i++]);
-	control->time_to_eat = ft_atoi(argv[i++]);
-	control->time_to_sleep = ft_atoi(argv[i++]);
+	control->time_to_die = (t_time)ft_atoi(argv[i++]);
+	control->time_to_eat = (t_time)ft_atoi(argv[i++]);
+	control->time_to_sleep = (t_time)ft_atoi(argv[i++]);
 	if (argc != i)
-		control->nu_of_time_to_eat = ft_atoi(argv[i]);
+		control->nu_meals = (t_time)ft_atoi(argv[i]);
 	else
-		control->nu_of_time_to_eat = -1;
+		control->nu_meals = -1;
 	control->deaths = FALSE;
 	init_mutex(control);
 	malloc_threads(control);
