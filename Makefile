@@ -201,9 +201,9 @@ norm: cl
 
 .PHONY: norm_status
 norm_status: cl
-	${AT} printf "[${YELLOW} FILES No ${RESET}]: " ${BLOCK}
+	${AT} printf "[${YELLOW} FILES No ${RESET}]:" ${BLOCK}
 	${AT} norminette ${SRCS} ${INC_ROOT}|wc -l ${BLOCK}
-	${AT} printf "${_SUCCESS}: " ${BLOCK}
+	${AT} printf "${_SUCCESS}:\t\t   " ${BLOCK}
 	${AT} norminette ${SRCS} ${INC_ROOT}|grep -wc "OK" ${BLOCK}
 	${AT}printf "Target working accordingly ............ ${_SUCCESS}\n" ${BLOCK}
 
