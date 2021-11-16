@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:52:39 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 17:57:01 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/16 20:24:23 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,4 @@
 # define THINK				"is thinking\t\t|\n"
 # define DIE				"died\t\t\t|\n"
 
-#endif //MESSAGE_H
+#endif /* MESSAGE_H */

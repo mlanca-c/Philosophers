@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/15 18:43:25 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/16 21:18:50 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@
 # include "message.h"
 
 /*
-** Used in t_bool types.
-*/
-# define TRUE	1
-# define FALSE	0
-
-/*
-** This typedef creates a specific type of integer number (int) called t_bool.
+** This enum creates a specific type of variaable called t_bool.
 ** This data type will only have the values indicated by the macros TRUE and
 ** FALSE.
 */
-typedef int				t_bool;
+typedef enum e_bool
+{
+	TRUE,
+	FALSE
+}	t_bool;
 
 /*
 ** This typedef creates a specific type of integer number (int) called t_time.
@@ -42,29 +40,36 @@ typedef int				t_bool;
 typedef long unsigned	t_time;
 
 /*
-** This enumeration has all the possible states a philosopher can have.
+** Thus struct represents the forks in the simulation. As such, it contains the
+** following variables:
+** 		- mutex_fork (pthread_mutex_t) : mutex for of fork in question.
+** 		- owner (int) : id of the philosopher using the fork.
+** 		- used (t_bool) : boolen indicating if the fork is being used.
 */
-typedef enum e_status
+typedef struct s_fork
 {
-	HAS_FORKS,
-	EATING,
-	SLEEPING,
-	THINKING,
-	FINISHED
-}	t_status;
+	pthread_mutex_t	*mutex_fork;
+	int				owner;
+	t_bool			used;
+}	t_fork;
 
 /*
 ** This is the main struct of the project. As such it contains the following
 ** variables:
 **		- start_time (t_time) : simulation start time.
+** 		- time_to_die (t_time) : time a philosopher can go without eating.
+** 		- time_to_eat (t_time) : time it takes for a philosopher to eat.
+** 		- time_to_sleep (t_time) : time it takes for a philosopher to sleep.
 ** 		- nu_of_philo (int) : number of philosophers at the table.
-** 		- time_to_die (int) : time a philosopher can go without eating.
-** 		- time_to_eat (int) : time it takes for a philosopher to eat.
-** 		- time_to_sleep (int) : time it takes for a philosopher to sleep.
 ** 		- nu_meals (int) : maximum number of times a philosopher needs
 ** 									to eat.
+**		- deaths (t_bool) : boolean that starts at FALSE and is TRUE when a
+**		philosopher is dead.
 **		- threads (pthread_t *) : list of the project's threads.
-**		- mutexes (pthread_mutex_t *) : list of the project's mutexes.
+** 		- philos (t_philos *) : list of philosophers.
+** 		- forks (t_forks *) : list of forks.
+** 		- print (pthread_mutex_t) : mutex for the print_action().
+** 		- dead (pthread_mutex_t) : mutex for the death of a philosopher.
 */
 typedef struct s_control
 {
@@ -76,9 +81,10 @@ typedef struct s_control
 	int				nu_meals;
 	t_bool			deaths;
 	pthread_t		*threads;
-	pthread_mutex_t	*mutexes;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*dead;
+	struct s_philo	*philos;
+	t_fork			*forks;
+	pthread_mutex_t	*mutex_print;
+	pthread_mutex_t	*mutex_dead;
 }	t_ctrl;
 
 /*
@@ -87,24 +93,20 @@ typedef struct s_control
 ** 		- id (int) : number ID of the philosopher.
 ** 		- color (char *) : color of the philosopher - so that the output of the
 ** 						program is colored - ANSI_H.
-** 		- status (t_status) : status of the philosopher.
-**		- last_ate (t_time) : time the philosopher ate last.
-** 		- last_action (t_time) : time of the last action the philosopher did.
 ** 		- meal_times (int) : number of times a philosopher already ate from the
 ** 								bowl of spaghetti.
-**		- is_dead (t_bool) : indicates if the philosopher is dead.
+**		- last_meal (t_time) : time the philosopher ate last.
+** 		- last_action (t_time) : time of the last action the philosopher did.
 ** 		- control (t_ctrl) : main program variable that contains all the
 ** 							program's information.
 */
-typedef struct s_philosopher
+typedef struct s_philo
 {
 	int			id;
 	char		*color;
-	//t_status	status;
+	int			meal_times;
 	t_time		last_meal;
 	t_time		last_action;
-	int			meal_times;
-	t_bool		is_dead;
 	t_ctrl		*control;
 }	t_philo;
 
@@ -128,6 +130,17 @@ void	exit_program(t_ctrl *control, int message);
 t_ctrl	*init_control(int argc, char **argv);
 
 /*
+** fork.c Function
+*/
+void	init_forks(t_ctrl *control);
+
+/*
+** philosophers.c Functions
+*/
+void	init_philosopher(t_ctrl *control);
+void	init_philosophers(t_ctrl *control);
+
+/*
 ** create_mutex.c Functions
 */
 void	init_mutex(t_ctrl *control);
@@ -139,12 +152,6 @@ void	destroy_mutex(t_ctrl *control);
 void	malloc_threads(t_ctrl *control);
 void	init_thread(t_ctrl *control, t_philo *philosopher);
 void	destroy_threads(t_ctrl *control);
-
-/*
-** philosophers.c Functions
-*/
-void	init_philosopher(t_ctrl *control);
-void	init_philosophers(t_ctrl *control);
 
 /*
 ** get_time.c Functions
@@ -166,14 +173,12 @@ t_bool	is_dead(t_philo *philo);
 void	print_action(char *message, t_philo *philo);
 
 /*
+** philo_actions.c Functions
 */
-void	philo_think(t_philo *philo);
 void	philo_take_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_leave_forks(t_philo *philo);
 void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
-// TESTING FUNCTION
-void	*say_hello(void *philos);
-
-#endif //PHILO_H
+#endif /* PHILO_H */
