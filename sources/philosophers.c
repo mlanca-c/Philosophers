@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:31:51 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/15 18:30:24 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/16 10:14:47 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,29 @@
 */
 char	*get_color(void)
 {
-	if (get_current_time() % 12 == 0)
+	if (get_current_time() + 1 % 12 == 0)
 		return (ANSI_RED);
-	if (get_current_time() % 12 == 1)
+	if (get_current_time() + 2 % 12 == 1)
 		return (ANSI_BRED);
-	if (get_current_time() % 12 == 2)
+	if (get_current_time() + 3 % 12 == 2)
 		return (ANSI_GREEN);
-	if (get_current_time() % 12 == 3)
+	if (get_current_time() + 4 % 12 == 3)
 		return (ANSI_BGREEN);
-	if (get_current_time() % 12 == 4)
+	if (get_current_time() + 5 % 12 == 4)
 		return (ANSI_YELLOW);
-	if (get_current_time() % 12 == 5)
+	if (get_current_time() + 6 % 12 == 5)
 		return (ANSI_BYELLOW);
-	if (get_current_time() % 12 == 6)
+	if (get_current_time() + 7 % 12 == 6)
 		return (ANSI_BLUE);
-	if (get_current_time() % 12 == 7)
+	if (get_current_time() + 8 % 12 == 7)
 		return (ANSI_BBLUE);
-	if (get_current_time() % 12 == 8)
+	if (get_current_time() + 9 % 12 == 8)
 		return (ANSI_MAGENTA);
-	if (get_current_time() % 12 == 9)
+	if (get_current_time() + 10 % 12 == 9)
 		return (ANSI_BMAGENTA);
-	if (get_current_time() % 12 == 10)
+	if (get_current_time() + 11 % 12 == 10)
 		return (ANSI_CYAN);
-	if (get_current_time() % 12 == 11)
+	if (get_current_time() + 12 % 12 == 11)
 		return (ANSI_CYAN);
 	return(ANSI_BWHITE);
 }
@@ -83,7 +83,6 @@ void	init_philosophers(t_ctrl *control)
 		philo->control = control;
 		init_thread(control, philo);
 		i++;
-		free(philo);
 	}
 }
 

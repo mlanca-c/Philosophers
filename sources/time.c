@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 17:28:52 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/15 18:57:18 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/16 10:12:02 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	ft_wait(t_time time, t_philo *philo)
 
 void	*say_hello(void *philos)
 {
-	(void)philos;
+	print_action("says hello.\n", philos);
 	return (0);
 }
