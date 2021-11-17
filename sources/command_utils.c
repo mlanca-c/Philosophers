@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlanca-c <mlanca-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/13 17:59:25 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/17 00:08:38 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,13 @@ void	error_message(char *message)
 ** @param	t_ctrl	*control	- main struct of the program. Some variables
 ** 								it contains need to be freed.
 */
-	/*
-	if (message != ERROR_THREADS && message != ERROR_MUTEX)
-		destroy_threads(control);
-	*/
 void	exit_program(t_ctrl *control, int message)
 {
-	if (message != ERROR_MUTEX)
-		destroy_mutex(control);
-	free(control->mutexes);
-	free(control->dead);
-	free(control->print);
-	free(control->threads);
+	(void)message;
+	destroy_mutex(control);
+	free(control->forks);
+	destroy_threads(control);
+	free(control->philos);
 	free(control);
 	exit(EXIT_SUCCESS);
 }

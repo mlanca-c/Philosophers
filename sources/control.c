@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/15 18:23:26 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/16 23:35:56 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ t_ctrl	*init_control(int argc, char **argv)
 	control = (t_ctrl *)ft_malloc(sizeof(t_ctrl), error_message);
 	i = 1;
 	control->nu_of_philo = ft_atoi(argv[i++]);
-	if (!control->nu_of_philo)
-		error_message(NO_PHILO);
-	if (control->nu_of_philo > 200)
-		error_message(TOO_MANY_PHILO);
+	if (!control->nu_of_philo || control->nu_of_philo > 200)
+		error_message(WRONG_PHILO_NU);
 	control->time_to_die = (t_time)ft_atoi(argv[i++]);
 	control->time_to_eat = (t_time)ft_atoi(argv[i++]);
 	control->time_to_sleep = (t_time)ft_atoi(argv[i++]);
@@ -47,8 +45,8 @@ t_ctrl	*init_control(int argc, char **argv)
 	else
 		control->nu_meals = -1;
 	control->deaths = FALSE;
+	init_forks(control);
 	init_mutex(control);
-	malloc_threads(control);
 	control->start_time = get_current_time();
 	return (control);
 }

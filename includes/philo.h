@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/16 21:18:50 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/17 00:15:20 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ typedef long unsigned	t_time;
 ** Thus struct represents the forks in the simulation. As such, it contains the
 ** following variables:
 ** 		- mutex_fork (pthread_mutex_t) : mutex for of fork in question.
-** 		- owner (int) : id of the philosopher using the fork.
-** 		- used (t_bool) : boolen indicating if the fork is being used.
+** 		- philo_id (int) : id of the philosopher using the fork.
 */
 typedef struct s_fork
 {
-	pthread_mutex_t	*mutex_fork;
-	int				owner;
-	t_bool			used;
+	pthread_mutex_t	mutex_fork;
+	int				philo_id;
 }	t_fork;
 
 /*
@@ -103,7 +101,7 @@ typedef struct s_control
 typedef struct s_philo
 {
 	int			id;
-	char		*color;
+	t_color		color;
 	int			meal_times;
 	t_time		last_meal;
 	t_time		last_action;
@@ -149,12 +147,11 @@ void	destroy_mutex(t_ctrl *control);
 /*
 ** create_threads.c Functions
 */
-void	malloc_threads(t_ctrl *control);
-void	init_thread(t_ctrl *control, t_philo *philosopher);
+void	init_thread(t_ctrl *control);
 void	destroy_threads(t_ctrl *control);
 
 /*
-** get_time.c Functions
+** time.c Functions
 */
 t_time	get_current_time(void);
 t_time	get_time(t_time time);

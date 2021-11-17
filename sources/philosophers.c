@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 22:31:51 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/16 10:14:47 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/17 00:21:42 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,13 @@
 ** @return
 ** 		- The get_philos_color() function returns the philosophers color.
 */
-char	*get_color(void)
+t_color	get_color(int id)
 {
-	if (get_current_time() + 1 % 12 == 0)
-		return (ANSI_RED);
-	if (get_current_time() + 2 % 12 == 1)
-		return (ANSI_BRED);
-	if (get_current_time() + 3 % 12 == 2)
-		return (ANSI_GREEN);
-	if (get_current_time() + 4 % 12 == 3)
-		return (ANSI_BGREEN);
-	if (get_current_time() + 5 % 12 == 4)
-		return (ANSI_YELLOW);
-	if (get_current_time() + 6 % 12 == 5)
-		return (ANSI_BYELLOW);
-	if (get_current_time() + 7 % 12 == 6)
-		return (ANSI_BLUE);
-	if (get_current_time() + 8 % 12 == 7)
-		return (ANSI_BBLUE);
-	if (get_current_time() + 9 % 12 == 8)
-		return (ANSI_MAGENTA);
-	if (get_current_time() + 10 % 12 == 9)
-		return (ANSI_BMAGENTA);
-	if (get_current_time() + 11 % 12 == 10)
-		return (ANSI_CYAN);
-	if (get_current_time() + 12 % 12 == 11)
-		return (ANSI_CYAN);
-	return(ANSI_BWHITE);
+	static t_color	color[14] = {ANSI_RED, ANSI_GREEN, ANSI_YELLOW, ANSI_BLUE,
+		ANSI_MAGENTA, ANSI_CYAN, ANSI_WHITE, ANSI_BRED, ANSI_BGREEN,
+		ANSI_BYELLOW, ANSI_BBLUE, ANSI_BMAGENTA, ANSI_BCYAN, ANSI_BWHITE};
+
+	return (color[id % 14]);
 }
 
 /*
@@ -68,41 +48,37 @@ char	*get_color(void)
 */
 void	init_philosophers(t_ctrl *control)
 {
-	t_philo	*philo;
 	int		i;
 
+	i = control->nu_of_philo;
+	control->philos = (t_philo *)ft_malloc(sizeof(t_philo) * i, error_message);
 	i = 0;
 	while (i < control->nu_of_philo)
 	{
-		philo = (t_philo *)ft_malloc(sizeof(t_philo), error_message);
-		philo->id = i + 1;
-		philo->color = get_color();
-		philo->last_meal = control->start_time;
-		philo->last_action = control->start_time;
-		philo->meal_times = 0;
-		philo->control = control;
-		init_thread(control, philo);
+		control->philos[i].id = i + 1;
+		control->philos[i].color = get_color(i);
+		control->philos[i].last_meal = control->start_time;
+		control->philos[i].last_action = control->start_time;
+		control->philos[i].meal_times = 0;
+		control->philos[i].control = control;
 		i++;
 	}
+	init_thread(control);
 }
 
 /*
 */
 void	init_philosopher(t_ctrl *control)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)ft_malloc(sizeof(t_philo), error_message);
-	philo->id = 1;
-	philo->color = get_color();
-	philo->last_meal = control->start_time;
-	philo->last_action = control->start_time;
-	philo->meal_times = 0;
-	philo->control = control;
-	if (pthread_create(&control->threads[0], NULL, &simulation_one_philosopher,
-			(void *)philo))
+	control->philos = (t_philo *)ft_malloc(sizeof(t_philo), error_message);
+	control->philos->id = 1;
+	control->philos->color = get_color(1);
+	control->philos->last_meal = control->start_time;
+	control->philos->last_action = control->start_time;
+	control->philos->meal_times = 0;
+	control->philos->control = control;
+	control->threads = (pthread_t *)ft_malloc(sizeof(pthread_t), error_message);
+	if (pthread_create(control->threads, NULL, &simulation_one_philosopher,
+			(void *)control->philos))
 		exit_program(control, ERROR_THREAD);
-	if (pthread_join(control->threads[0], NULL))
-		exit_program(control, ERROR_THREAD);
-	free(philo);
 }

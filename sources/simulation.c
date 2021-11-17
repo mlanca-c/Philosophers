@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:46:47 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/15 18:57:41 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/17 00:19:25 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,14 @@ void	*simulation_one_philosopher(void *arg)
 
 /*
 */
-void	*simulation(void *arg);
+void	*simulation(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	print_action(EAT, philo);
+	return (0);
+}
 
 /*
 ** This function checks if the philosopher - 'philo' is dead.
