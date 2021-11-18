@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:46:47 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/17 00:19:25 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/18 10:51:23 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,26 @@ void	*simulation_one_philosopher(void *arg)
 void	*simulation(void *arg)
 {
 	t_philo	*philo;
+	int	right;
+	int	left;
 
 	philo = (t_philo *)arg;
-	print_action(EAT, philo);
+	left = (philo->id - 1) % philo->control->nu_of_philo;
+	right = philo->id % philo->control->nu_of_philo;
+	while (!philo->control->deaths)
+	{
+		if (philo->id % 2)
+			philo_take_forks(philo, right, left);
+		else
+			philo_take_forks(philo, left, right);
+		philo_eat(philo);
+		philo_leave_forks(philo, right, left);
+		if (philo->control->time_to_eat &&
+			philo->meal_times >= philo->control->nu_meals)
+			break ;
+		philo_sleep(philo);
+		philo_think(philo);
+	}
 	return (0);
 }
 
@@ -44,12 +61,15 @@ void	*simulation(void *arg)
 **
 ** @param	t_philo	*philo	- philosopher in case.
 */
-t_bool	is_dead(t_philo *philo)
+int	is_dead(t_philo *philo)
 {
 	if (get_time(philo->last_meal) > philo->control->time_to_die)
 	{
+		pthread_mutex_lock(philo->control->mutex_dead);
+		print_action(DIE, philo);
 		philo->control->deaths = TRUE;
-		return (TRUE);
+		pthread_mutex_unlock(philo->control->mutex_dead);
+		return (1);
 	}
-	return (FALSE);
+	return (0);
 }

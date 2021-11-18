@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:52:30 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/16 23:35:56 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/18 10:51:59 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_ctrl	*init_control(int argc, char **argv)
 	if (argc != i)
 		control->nu_meals = (t_time)ft_atoi(argv[i]);
 	else
-		control->nu_meals = -1;
+		control->nu_meals = 0;
 	control->deaths = FALSE;
 	init_forks(control);
 	init_mutex(control);

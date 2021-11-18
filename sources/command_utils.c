@@ -6,7 +6,7 @@
 /*   By: mlanca-c <mlanca-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/17 00:08:38 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/17 09:57:58 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	error_message(char *message)
 void	exit_program(t_ctrl *control, int message)
 {
 	(void)message;
+	//pthread_mutex_unlock(philo->control->mutex_dead);
 	destroy_mutex(control);
 	free(control->forks);
 	destroy_threads(control);

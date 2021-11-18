@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/17 00:15:20 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/18 10:51:44 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,8 @@
 # include "ansi.h"
 # include "message.h"
 
-/*
-** This enum creates a specific type of variaable called t_bool.
-** This data type will only have the values indicated by the macros TRUE and
-** FALSE.
-*/
-typedef enum e_bool
-{
-	TRUE,
-	FALSE
-}	t_bool;
+# define TRUE	1
+# define FALSE	0
 
 /*
 ** This typedef creates a specific type of integer number (int) called t_time.
@@ -61,7 +53,7 @@ typedef struct s_fork
 ** 		- nu_of_philo (int) : number of philosophers at the table.
 ** 		- nu_meals (int) : maximum number of times a philosopher needs
 ** 									to eat.
-**		- deaths (t_bool) : boolean that starts at FALSE and is TRUE when a
+**		- deaths (int) : boolean that starts at FALSE and is TRUE when a
 **		philosopher is dead.
 **		- threads (pthread_t *) : list of the project's threads.
 ** 		- philos (t_philos *) : list of philosophers.
@@ -77,7 +69,7 @@ typedef struct s_control
 	t_time			time_to_sleep;
 	int				nu_of_philo;
 	int				nu_meals;
-	t_bool			deaths;
+	int				deaths;
 	pthread_t		*threads;
 	struct s_philo	*philos;
 	t_fork			*forks;
@@ -162,7 +154,7 @@ void	ft_wait(t_time time, t_philo *philo);
 */
 void	*simulation_one_philosopher(void *arg);
 void	*simulation(void *arg);
-t_bool	is_dead(t_philo *philo);
+int		is_dead(t_philo *philo);
 
 /*
 ** print_action.c Function
@@ -172,9 +164,9 @@ void	print_action(char *message, t_philo *philo);
 /*
 ** philo_actions.c Functions
 */
-void	philo_take_forks(t_philo *philo);
+void	philo_take_forks(t_philo *philo, int right, int left);
 void	philo_eat(t_philo *philo);
-void	philo_leave_forks(t_philo *philo);
+void	philo_leave_forks(t_philo *philo, int right, int left);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 
