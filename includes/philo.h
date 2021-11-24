@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 17:25:17 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:12:39 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	print_faction(char *action, int fork, t_philo *philo);		//!!!!!!
 ** actions.c Functions
 */
 void	philo_take_forks(t_philo *philo, int fork_1, int fork_2);
+void	philo_eat(t_philo *philo);
 void	philo_leave_fork(t_philo *philo, int fork_1, int fork_2);
 
 #endif /* PHILO_H */
