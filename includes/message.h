@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 15:12:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 15:16:10 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:26:37 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 ** Simulation messages for print_action() function.
 */
 # define FORK				"has taken a fork."
+# define FORK_L				"left the fork."
 # define EAT				"is eating."
 # define SLEEP				"is sleeping."
 # define THINK				"is thinking."

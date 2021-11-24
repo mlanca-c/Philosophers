@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 17:53:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 17:06:06 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:59:13 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	*simulation_one_phiosopher(void *args)
 }
 
 /*
- * This function ...!!!
  * @param	void	*arg	- argument given in pthread_create() function in
  * 							init_threads.
 */
@@ -85,6 +84,8 @@ void	*simulation(void *args)
 			philo_take_forks(philo, fork_1, fork_2);
 		else
 			philo_take_forks(philo, fork_2, fork_1);
+		philo_leave_fork(philo, fork_1, fork_2);
+		break ;
 		check_dead(philo);
 		if (philo->controllers->death)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 18:22:46 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 15:18:16 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:29:07 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	print_faction(char *action, int fork, t_philo *philo)
 	pthread_mutex_lock(&(philo->controllers->mutex_print));
 	printf("|%ums\t", get_time_from_action(philo->controllers->start_time));
 	printf("|%s%5d " RESET, philo->color, philo->id);
-	printf("|%s %d\n", action, fork);
+	if (!ft_strcmp(action, DIE))
+		printf(RED);
+	printf("|%s %d\n"RESET, action, fork);
 	pthread_mutex_unlock(&(philo->controllers->mutex_print));
 }
