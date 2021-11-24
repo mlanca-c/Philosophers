@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlanca-c <mlanca-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 20:15:53 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/17 09:57:58 by mlanca-c         ###   ########.fr       */
+/*   Created: 2021/11/20 17:46:19 by mlanca-c          #+#    #+#             */
+/*   Updated: 2021/11/23 17:55:36 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 */
 void	help_message(void)
 {
-	printf("\n[ " ANSI_GREEN "ok" ANSI_RESET " ]:\t\t");
+	printf("\n[ " GREEN "ok" RESET " ]:\t\t");
 	printf("./philo 1 800 200 200 7\n");
-	printf("[ " ANSI_GREEN "format" ANSI_RESET " ]:\t");
-	printf("./philo <num_philo> <time_to_die> <time_to_eat> ");
-	printf("<time_to_sleep> [num_times_each_philo_must_eat]\n");
+	printf("[ " GREEN "format" RESET " ]:\t");
+	printf("./philo <nu_philo> <time_to_die> <time_to_eat> ");
+	printf("<time_to_sleep> [max_meal]\n");
 	exit(EXIT_SUCCESS);
 }
 
@@ -41,8 +41,8 @@ void	help_message(void)
 */
 void	error_message(char *message)
 {
-	printf("\n[ " ANSI_RED "philosophers" ANSI_RESET " ]: %s", message);
-	printf("[ "ANSI_RED "info" ANSI_RESET " ]: ./philo --help\n");
+	printf("\n[ " RED "philosophers" RESET " ]: %s", message);
+	printf("[ "RED "info" RESET " ]: ./philo --help\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -51,18 +51,18 @@ void	error_message(char *message)
 ** or every philosopher ate the maximum amount of times it could.
 ** The function frees all allocated memory and destroys all threads and mutex.
 ** Finally, it exits the program with EXIT_SUCCESS.
-**
-** @param	t_ctrl	*control	- main struct of the program. Some variables
-** 								it contains need to be freed.
 */
-void	exit_program(t_ctrl *control, int message)
+void	exit_program(t_ctrl *controllers, int message)
 {
-	(void)message;
-	//pthread_mutex_unlock(philo->control->mutex_dead);
-	destroy_mutex(control);
-	free(control->forks);
-	destroy_threads(control);
-	free(control->philos);
-	free(control);
-	exit(EXIT_SUCCESS);
+	if (message != EXIT_MUTEX)
+	{
+		free(controllers->fork);
+		free(controllers->philo);
+	}
+	if (message != EXIT_THREAD)
+		free(controllers->thread);
+	free(controllers);
+	if (message == NO_ERROR)
+		exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }

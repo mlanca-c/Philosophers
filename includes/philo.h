@@ -5,37 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 19:25:56 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/18 10:51:44 by mlanca-c         ###   ########.fr       */
+/*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
+/*   Updated: 2021/11/24 15:40:38 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <stdlib.h>
 # include <pthread.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <sys/time.h>
-# include "ansi.h"
+# include <stdbool.h>
+# include "color.h"
 # include "message.h"
 
-# define TRUE	1
-# define FALSE	0
-
 /*
-** This typedef creates a specific type of integer number (int) called t_time.
-** This data type will represent only integer values relative to time -
-** in this case milliseconds.
+** This typedef is an unsigned int that represents the milliseconds.
 */
-typedef long unsigned	t_time;
+typedef unsigned int	t_ms;
 
 /*
-** Thus struct represents the forks in the simulation. As such, it contains the
-** following variables:
-** 		- mutex_fork (pthread_mutex_t) : mutex for of fork in question.
-** 		- philo_id (int) : id of the philosopher using the fork.
+** This is the controllers struct - the main structure of the project.
+** The struct s_controllers contains all the important variables:
+** 	- start_time (t_ms) : marks the simulation start time in milliseconds.
+** 	- time_to_die (t_ms) : time in milliseconds it takes for a philosopher to
+** 							die.
+** 	- time_to_eat (t_ms) : time in milliseconds it takes for a philosopher to
+** 							eat.
+** 	- time_to_sleep (t_ms) : time in milliseconds it takes for a philosopher to
+** 							sleep.
+** 	- nu_philo (int) : number of philosophers in the simulation.
+** 	- max_meal (int) : maximum number of times a philosopher needs to eat.
+** 	- death (int) : boolean that tells if a philosopher from the 'philo' list is
+** 					dead.
+** 	- philo (list t_philo) : list of philosophers.
+** 	- fork (list t_fork) : list of forks.
+** 	- thread (list pthread_t) : list of threads.
+** 	- mutex_print (pthread_mutex_t) : protects status printed when a philosopher
+** 									is printing an action so that it doesn't get
+** 									scrambled with another philosopher's
+** 									printing.
+*/
+typedef struct s_controllers
+{
+	t_ms			start_time;
+	t_ms			time_to_die;
+	t_ms			time_to_eat;
+	t_ms			time_to_sleep;
+	int				nu_philo;
+	int				max_meal;
+	bool			death;
+	struct s_philo	*philo;
+	struct s_fork	*fork;
+	pthread_t		*thread;
+	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	mutex_die;
+}	t_ctrl;
+
+/*
+** This struct represents the fork each philosopher has by the table.
+** The struct s_fork contains the following variables:
+** 		- mutex_fork (pthread_mutex_t) : mutex that protects the fork's status -
+** 										when a philosopher grabs the fork,
+** 										this mutex is locked not letting  other
+** 										philosophers do the same.
+** 		- philo_id (int) : id of the philosopher currently holding the fork.
+** 							When no philosopher is holding the fork, the
+** 							variable it's set to the its default - 0.
 */
 typedef struct s_fork
 {
@@ -44,61 +82,31 @@ typedef struct s_fork
 }	t_fork;
 
 /*
-** This is the main struct of the project. As such it contains the following
-** variables:
-**		- start_time (t_time) : simulation start time.
-** 		- time_to_die (t_time) : time a philosopher can go without eating.
-** 		- time_to_eat (t_time) : time it takes for a philosopher to eat.
-** 		- time_to_sleep (t_time) : time it takes for a philosopher to sleep.
-** 		- nu_of_philo (int) : number of philosophers at the table.
-** 		- nu_meals (int) : maximum number of times a philosopher needs
-** 									to eat.
-**		- deaths (int) : boolean that starts at FALSE and is TRUE when a
-**		philosopher is dead.
-**		- threads (pthread_t *) : list of the project's threads.
-** 		- philos (t_philos *) : list of philosophers.
-** 		- forks (t_forks *) : list of forks.
-** 		- print (pthread_mutex_t) : mutex for the print_action().
-** 		- dead (pthread_mutex_t) : mutex for the death of a philosopher.
-*/
-typedef struct s_control
-{
-	t_time			start_time;
-	t_time			time_to_die;
-	t_time			time_to_eat;
-	t_time			time_to_sleep;
-	int				nu_of_philo;
-	int				nu_meals;
-	int				deaths;
-	pthread_t		*threads;
-	struct s_philo	*philos;
-	t_fork			*forks;
-	pthread_mutex_t	*mutex_print;
-	pthread_mutex_t	*mutex_dead;
-}	t_ctrl;
-
-/*
-** This struct represents a philosopher. As such the struct contains the
-** following attributes:
-** 		- id (int) : number ID of the philosopher.
-** 		- color (char *) : color of the philosopher - so that the output of the
-** 						program is colored - ANSI_H.
-** 		- meal_times (int) : number of times a philosopher already ate from the
-** 								bowl of spaghetti.
-**		- last_meal (t_time) : time the philosopher ate last.
-** 		- last_action (t_time) : time of the last action the philosopher did.
-** 		- control (t_ctrl) : main program variable that contains all the
-** 							program's information.
+** This struct represents a philosopher in the simulation.
+** The struct s_philo contains the following variables:
+** 		- id (int) : philosopher's identification number.
+** 		- color (t_color) : color associated to the philosopher.
+** 		- last_action (t_ms) : time of the last action the philosopher take.
+** 		- last_meal (t_ms) : time of the last meal the philosopher take.
+** 		- nu_meal (int) : number of meals the philosopher already take.
+** 		- controllers (t_ctrl *) : controllers - struct t_ctrl * - variable.
 */
 typedef struct s_philo
 {
-	int			id;
-	t_color		color;
-	int			meal_times;
-	t_time		last_meal;
-	t_time		last_action;
-	t_ctrl		*control;
+	int		id;
+	t_color	color;
+	t_ms	last_action;
+	t_ms	last_meal;
+	int		nu_meal;
+	t_ctrl	*controllers;
 }	t_philo;
+
+/*
+** command_utils.c Functions
+*/
+void	help_message(void);
+void	error_message(char *message);
+void	exit_program(t_ctrl *controllers, int message);
 
 /*
 **  libft Functions
@@ -108,66 +116,51 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_atoi(char *str);
 
 /*
-** command_utils.c Functions
+** controllers.c Function
 */
-void	help_message(void);
-void	error_message(char *message);
-void	exit_program(t_ctrl *control, int message);
-
-/*
-** control.c Function
-*/
-t_ctrl	*init_control(int argc, char **argv);
+t_ctrl	*init_controllers(int argc, char *argv[]);
 
 /*
 ** fork.c Function
 */
-void	init_forks(t_ctrl *control);
+t_fork	*init_fork(t_ctrl *controllers);
 
 /*
-** philosophers.c Functions
+** philo.c Function
 */
-void	init_philosopher(t_ctrl *control);
-void	init_philosophers(t_ctrl *control);
-
-/*
-** create_mutex.c Functions
-*/
-void	init_mutex(t_ctrl *control);
-void	destroy_mutex(t_ctrl *control);
-
-/*
-** create_threads.c Functions
-*/
-void	init_thread(t_ctrl *control);
-void	destroy_threads(t_ctrl *control);
+t_philo	*init_philo(t_ctrl *controllers);
 
 /*
 ** time.c Functions
 */
-t_time	get_current_time(void);
-t_time	get_time(t_time time);
-void	ft_wait(t_time time, t_philo *philo);
+t_ms	get_current_time(void);
+t_ms	get_time_from_action(t_ms action);
+void	ft_wait(t_ms time, t_philo *philo);
+
+/*
+** thread.c Functions
+*/
+void	init_thread(t_ctrl *controllers);
+void	init_threads(t_ctrl *controllers);
+void	remove_thread(t_ctrl *controllers);
 
 /*
 ** simulation.c Functions
 */
-void	*simulation_one_philosopher(void *arg);
-void	*simulation(void *arg);
-int		is_dead(t_philo *philo);
+void	check_dead(t_philo *philo);
+void	*simulation_one_phiosopher(void *args);
+void	*simulation(void *args);
 
 /*
 ** print_action.c Function
 */
-void	print_action(char *message, t_philo *philo);
+void	print_action(char *action, t_philo *philo);
+void	print_faction(char *action, int fork, t_philo *philo);		//!!!!!!
 
 /*
-** philo_actions.c Functions
+** actions.c Functions
 */
-void	philo_take_forks(t_philo *philo, int right, int left);
-void	philo_eat(t_philo *philo);
-void	philo_leave_forks(t_philo *philo, int right, int left);
-void	philo_sleep(t_philo *philo);
-void	philo_think(t_philo *philo);
+void	philo_take_forks(t_philo *philo, int fork_1, int fork_2);
+void	philo_leave_fork(t_philo *philo);
 
 #endif /* PHILO_H */
