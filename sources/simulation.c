@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 17:53:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 16:34:40 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 17:14:14 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,22 @@ void	get_forks(t_philo *philo, int *one, int *two)
 
 /*
 */
-void	check_dead(t_philo *philo)
+bool	check_dead(t_philo *philo)
 {
 	if (get_time(philo->last_meal) >= philo->controllers->time_to_die)
 	{
 		pthread_mutex_lock(&(philo->controllers->mutex_print));
-		printf("|%ums\t", get_time(philo->controllers->start_time));
-		printf("|%s%5d " RESET, philo->color, philo->id);
-		printf("|%sdied.\n"RESET, RED);
-		exit_program(philo->controllers, NO_ERROR);
+		if (!philo->controllers->death)
+		{
+			printf("|%ums\t", get_time(philo->controllers->start_time));
+			printf("|%s%5d " RESET, philo->color, philo->id);
+			printf("|%sdied.\n"RESET, RED);
+			philo->controllers->death = true;
+		}
+		pthread_mutex_unlock(&(philo->controllers->mutex_print));
+		return (true);
 	}
+	return (false);
 }
 
 /*
@@ -78,7 +84,7 @@ void	*simulation(void *args)
 
 	philo = (t_philo *)args;
 	get_forks(philo, &one, &two);
-	while (1)
+	while (!philo->controllers->death)
 	{
 		while (!philo->has_forks)
 		{
@@ -93,7 +99,7 @@ void	*simulation(void *args)
 				philo->nu_meal >= philo->controllers->max_meal)
 			break ;
 		philo_sleep(philo);
-		philo_think(philo);
+		print_action(THINK, philo);
 	}
 	return (philo);
 }

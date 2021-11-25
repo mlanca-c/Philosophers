@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:42:31 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 16:04:18 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:50:31 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_ms	get_time(t_ms action)
 void	ft_wait(t_ms time, t_philo *philo)
 {
 	while (time > get_time(philo->last_action))
-		check_dead(philo);
+		if (check_dead(philo))
+			break ;
 }

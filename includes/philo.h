@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 16:33:19 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:49:49 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef unsigned int	t_ms;
 ** 							sleep.
 ** 	- nu_philo (int) : number of philosophers in the simulation.
 ** 	- max_meal (int) : maximum number of times a philosopher needs to eat.
+**	- death (bool) : boolean indicating if there's a dead philosopher.
 ** 	- philo (list t_philo) : list of philosophers.
 ** 	- fork (list t_fork) : list of forks.
 ** 	- thread (list pthread_t) : list of threads.
@@ -54,6 +55,7 @@ typedef struct s_controllers
 	t_ms			time_to_sleep;
 	int				nu_philo;
 	int				max_meal;
+	bool			death;
 	struct s_philo	*philo;
 	struct s_fork	*fork;
 	pthread_t		*thread;
@@ -144,7 +146,7 @@ void	remove_thread(t_ctrl *controllers);
 /*
 ** simulation.c Functions
 */
-void	check_dead(t_philo *philo);
+bool	check_dead(t_philo *philo);
 void	*simulation_one_phiosopher(void *args);
 void	*simulation(void *args);
 
@@ -159,7 +161,6 @@ void	print_action(char *action, t_philo *philo);
 void	philo_take_forks(t_philo *philo, int fork_1, int fork_2);
 void	philo_eat(t_philo *philo);
 void	philo_leave_fork(t_philo *philo, int fork_1, int fork_2);
-void	philo_think(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
 #endif /* PHILO_H */

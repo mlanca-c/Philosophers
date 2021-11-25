@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 15:12:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 17:26:37 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 17:24:02 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,16 @@
 ** Error messages for error_message() function.
 */
 # define MALLOC_ERROR		"failed at allocating memory.\n"
-# define INVALID_ARGS_NUM	"invalid arguments, wrong number of arguments\n"
+# define INVALID_ARGS_NUM	"invalid arguments, wrong number of arguments.\n"
 # define INVALID_ARGS_MINUS	"invalid arguments, using negative numbers.\n"
 # define INVALID_ARGS_ALPHA	"invalid arguments, using non-integers arguments.\n"
-# define NO_PHILO			"invalid arguments, zero philosophers.\n"
-# define TOO_MANY_PHILO		"invalid arguments, too many philosophers.\n"
-
-//# define MUTEX_ERROR		"failed at creating new mutex.\n"
-//# define THREAD_ERROR		"failed at creating new thread.\n"
+# define INVALID_ARGS_PHILO "invalid arguments, wrong number of philosophers.\n"
+# define INVALID_ARGS_ZERO	"invalid arguments, zero values not allowed.\n"
 
 /*
 ** Simulation messages for print_action() function.
 */
 # define FORK				"has taken a fork."
-# define FORK_L				"left the fork."
 # define EAT				"is eating."
 # define SLEEP				"is sleeping."
 # define THINK				"is thinking."

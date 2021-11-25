@@ -164,6 +164,7 @@ clean: cl
 .PHONY: fclean
 fclean: cl clean
 	${AT} rm -f ${NAMES} ${BLOCK}
+	${AT} rm -rf *.dSYM ${BLOCK}
 	${AT}printf "Binary file removed ................... ${_SUCCESS}\n" ${BLOCK}
 
 .PHONY: re

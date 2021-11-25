@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:24:59 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/22 18:03:51 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 17:20:06 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int	ft_atoi(char *str)
 	number = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 		number = (number * 10) + (str[i++] - '0');
+	if (number == 0)
+		error_message(INVALID_ARGS_ZERO);
 	return (number);
 }

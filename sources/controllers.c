@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:55:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 13:54:36 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 17:19:51 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ t_ctrl	*init_controllers(int argc, char *argv[])
 	controllers = (t_ctrl *)ft_malloc(sizeof(t_ctrl), error_message);
 	i = 1;
 	controllers->nu_philo = ft_atoi(argv[i++]);
-	if (controllers->nu_philo == 0)
-		error_message(NO_PHILO);
-	if (controllers->nu_philo > 200)
-		error_message(TOO_MANY_PHILO);
+	if (controllers->nu_philo == 0 || controllers->nu_philo > 200)
+		error_message(INVALID_ARGS_PHILO);
 	controllers->time_to_die = ft_atoi(argv[i++]);
 	controllers->time_to_eat = ft_atoi(argv[i++]);
 	controllers->time_to_sleep = ft_atoi(argv[i++]);
@@ -51,6 +49,7 @@ t_ctrl	*init_controllers(int argc, char *argv[])
 		controllers->max_meal = 0;
 	if (pthread_mutex_init(&(controllers->mutex_print), NULL))
 		exit_program(controllers, EXIT_MUTEX);
+	controllers->death = false;
 	controllers->fork = init_fork(controllers);
 	controllers->start_time = get_current_time();
 	controllers->philo = init_philo(controllers);
