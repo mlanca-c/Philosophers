@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:52:24 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 18:15:00 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:20:28 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 
 /*
 */
-void	philo_take_forks(t_philo *philo, int fork_1, int fork_2)
+void	philo_take_forks(t_philo *philo, int one, int two)
 {
-	pthread_mutex_lock(&(philo->controllers->fork[fork_1].mutex_fork));
-	if (!philo->controllers->fork[fork_1].philo_id)
+	check_dead(philo);
+	pthread_mutex_lock(&(philo->controllers->fork[one].mutex_fork));
+	pthread_mutex_lock(&(philo->controllers->fork[two].mutex_fork));
+	if (!philo->controllers->fork[one].used &&
+			!philo->controllers->fork[two].used)
 	{
-		print_faction(FORK, fork_1, philo);
-		philo->controllers->fork[fork_1].philo_id = philo->id;
+		philo->controllers->fork[one].used = true;
+		print_action(FORK, philo);
+		philo->controllers->fork[two].used = true;
+		print_action(FORK, philo);
+		philo->has_forks = true;
 	}
-	pthread_mutex_unlock(&(philo->controllers->fork[fork_1].mutex_fork));
-	pthread_mutex_lock(&(philo->controllers->fork[fork_2].mutex_fork));
-	if (!philo->controllers->fork[fork_2].philo_id)
-	{
-		print_faction(FORK, fork_2, philo);
-		philo->controllers->fork[fork_2].philo_id = philo->id;
-	}
-	pthread_mutex_unlock(&(philo->controllers->fork[fork_2].mutex_fork));
+	pthread_mutex_unlock(&(philo->controllers->fork[one].mutex_fork));
+	pthread_mutex_unlock(&(philo->controllers->fork[two].mutex_fork));
 }
 
 /*
@@ -39,15 +39,29 @@ void	philo_eat(t_philo *philo)
 {
 	print_action(EAT, philo);
 	ft_wait(philo->controllers->time_to_eat, philo);
+	philo->last_meal = philo->last_action;
 	philo->nu_meal++;
 }
 
 /*
 */
-void	philo_leave_fork(t_philo *philo, int fork_1, int fork_2)
+void	philo_leave_fork(t_philo *philo, int one, int two)
 {
-	philo->controllers->fork[fork_1].philo_id = 0;
-	print_faction(FORK_L, fork_1, philo);
-	philo->controllers->fork[fork_2].philo_id = 0;
-	print_faction(FORK_L, fork_2, philo);
+	check_dead(philo);
+	philo->controllers->fork[one].used = false;
+	philo->controllers->fork[two].used = false;
+	philo->has_forks = false;
+}
+
+/*
+*/
+void	philo_sleep(t_philo *philo)
+{
+	print_action(SLEEP, philo);
+	ft_wait(philo->controllers->time_to_sleep, philo);
+}
+
+void	philo_think(t_philo *philo)
+{
+	print_action(THINK, philo);
 }

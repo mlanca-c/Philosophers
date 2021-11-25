@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:55:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 15:09:26 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 13:54:36 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 ** This function initializes the main variable of the program - struct
 ** s_controllers 'controllers'.
 **
-** @line 36			It allocates the necessary space for the variable
+** @line 38			It allocates the necessary space for the variable
 ** 					controllers using the ft_malloc() function.
-** @line 37, 45		Parses the user's input given by the command line arguments.
-** @line 46, 49		Initializes other struct variables inside controllers -
-** 					fork, philo, thread, mutex_print.
-** @line 50, 51		Sets other non-struct variables to their default values.
+** @line 40, 51		Parses the user's input given by the command line arguments.
+** @line 52, 56		Initializes other struct variables inside controllers -
+** 					fork, philo, thread, mutex_print - and sets the non-struct
+**					variables to their default values.
 **
 ** @param	int		argc	- argument counter.
 ** @param	char	*argv	- command line arguments.
@@ -51,9 +51,6 @@ t_ctrl	*init_controllers(int argc, char *argv[])
 		controllers->max_meal = 0;
 	if (pthread_mutex_init(&(controllers->mutex_print), NULL))
 		exit_program(controllers, EXIT_MUTEX);
-	if (pthread_mutex_init(&(controllers->mutex_die), NULL))
-		exit_program(controllers, EXIT_MUTEX);
-	controllers->death = false;
 	controllers->fork = init_fork(controllers);
 	controllers->start_time = get_current_time();
 	controllers->philo = init_philo(controllers);

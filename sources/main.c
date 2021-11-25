@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:44:04 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 15:08:51 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 11:57:51 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ int	main(int argc, char *argv[])
 		init_thread(controllers);
 	else
 		init_threads(controllers);
-	exit_program(controllers, NO_ERROR);
 	return (0);
 }

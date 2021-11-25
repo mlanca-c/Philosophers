@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 18:12:39 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:33:19 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef unsigned int	t_ms;
 ** 							sleep.
 ** 	- nu_philo (int) : number of philosophers in the simulation.
 ** 	- max_meal (int) : maximum number of times a philosopher needs to eat.
-** 	- death (int) : boolean that tells if a philosopher from the 'philo' list is
-** 					dead.
 ** 	- philo (list t_philo) : list of philosophers.
 ** 	- fork (list t_fork) : list of forks.
 ** 	- thread (list pthread_t) : list of threads.
@@ -56,12 +54,10 @@ typedef struct s_controllers
 	t_ms			time_to_sleep;
 	int				nu_philo;
 	int				max_meal;
-	bool			death;
 	struct s_philo	*philo;
 	struct s_fork	*fork;
 	pthread_t		*thread;
 	pthread_mutex_t	mutex_print;
-	pthread_mutex_t	mutex_die;
 }	t_ctrl;
 
 /*
@@ -71,14 +67,12 @@ typedef struct s_controllers
 ** 										when a philosopher grabs the fork,
 ** 										this mutex is locked not letting  other
 ** 										philosophers do the same.
-** 		- philo_id (int) : id of the philosopher currently holding the fork.
-** 							When no philosopher is holding the fork, the
-** 							variable it's set to the its default - 0.
+** 		- used (bool) : boolean indicating if the fork is being used.
 */
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex_fork;
-	int				philo_id;
+	bool			used;
 }	t_fork;
 
 /*
@@ -89,6 +83,8 @@ typedef struct s_fork
 ** 		- last_action (t_ms) : time of the last action the philosopher take.
 ** 		- last_meal (t_ms) : time of the last meal the philosopher take.
 ** 		- nu_meal (int) : number of meals the philosopher already take.
+**		- has_forks (bool) : boolean indicating if the philosopher has both
+**							forks.
 ** 		- controllers (t_ctrl *) : controllers - struct t_ctrl * - variable.
 */
 typedef struct s_philo
@@ -98,6 +94,7 @@ typedef struct s_philo
 	t_ms	last_action;
 	t_ms	last_meal;
 	int		nu_meal;
+	bool	has_forks;
 	t_ctrl	*controllers;
 }	t_philo;
 
@@ -134,7 +131,7 @@ t_philo	*init_philo(t_ctrl *controllers);
 ** time.c Functions
 */
 t_ms	get_current_time(void);
-t_ms	get_time_from_action(t_ms action);
+t_ms	get_time(t_ms action);
 void	ft_wait(t_ms time, t_philo *philo);
 
 /*
@@ -155,7 +152,6 @@ void	*simulation(void *args);
 ** print_action.c Function
 */
 void	print_action(char *action, t_philo *philo);
-void	print_faction(char *action, int fork, t_philo *philo);		//!!!!!!
 
 /*
 ** actions.c Functions
@@ -163,5 +159,7 @@ void	print_faction(char *action, int fork, t_philo *philo);		//!!!!!!
 void	philo_take_forks(t_philo *philo, int fork_1, int fork_2);
 void	philo_eat(t_philo *philo);
 void	philo_leave_fork(t_philo *philo, int fork_1, int fork_2);
+void	philo_think(t_philo *philo);
+void	philo_sleep(t_philo *philo);
 
 #endif /* PHILO_H */

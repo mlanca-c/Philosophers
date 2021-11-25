@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 15:42:31 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/24 14:03:56 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:04:18 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ms	get_current_time(void)
 
 /*
 */
-t_ms	get_time_from_action(t_ms action)
+t_ms	get_time(t_ms action)
 {
 	return (get_current_time() - action);
 }
@@ -40,10 +40,6 @@ t_ms	get_time_from_action(t_ms action)
 */
 void	ft_wait(t_ms time, t_philo *philo)
 {
-	while (time > get_time_from_action(philo->last_action))
-	{
+	while (time > get_time(philo->last_action))
 		check_dead(philo);
-		if (philo->controllers->death)
-			break ;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:22:16 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/23 18:32:51 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 13:41:20 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_philo	*init_philo(t_ctrl *controllers)
 		philo[i].last_action = controllers->start_time;
 		philo[i].last_meal = controllers->start_time;
 		philo[i].nu_meal = 0;
+		philo[i].has_forks = false;
 		philo[i].controllers = controllers;
 		i++;
 	}

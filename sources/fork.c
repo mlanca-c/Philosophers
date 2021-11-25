@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 19:01:22 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/23 14:08:24 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/25 16:12:07 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_fork	*init_fork(t_ctrl *controllers)
 	i = 0;
 	while (i < controllers->nu_philo)
 	{
-		fork[i].philo_id = 0;
+		fork[i].used = false;
 		if (pthread_mutex_init(&(fork[i++].mutex_fork), NULL))
 		{
 			while (i)
