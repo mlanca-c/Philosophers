@@ -6,52 +6,82 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:55:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 17:19:51 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:02:48 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-** This function initializes the main variable of the program - struct
-** s_controllers 'controllers'.
-**
-** @line 38			It allocates the necessary space for the variable
-** 					controllers using the ft_malloc() function.
-** @line 40, 51		Parses the user's input given by the command line arguments.
-** @line 52, 56		Initializes other struct variables inside controllers -
-** 					fork, philo, thread, mutex_print - and sets the non-struct
-**					variables to their default values.
-**
-** @param	int		argc	- argument counter.
-** @param	char	*argv	- command line arguments.
-**
-** @return
-** 		- The init_controllers() function returns the struct s_controllers
-** 		variable already initialized to the main() function.
+ * This function does the parsing of the user's input - command line arguments -
+ * storing the values to their respective space in 'controllers'.
 */
-t_ctrl	*init_controllers(int argc, char *argv[])
+void	parsing(t_ctrl *controllers, int argc, char *argv[], t_error *error)
+{
+	int	i;
+
+	i = 1;
+	if (!ft_atoi(&controllers->nu_philo, argv[i++], error))
+		return ;
+	if (controllers->nu_philo > 200)
+		*error = INVALID_ARGS;
+	if (!ft_atoi((int *)&controllers->time_to_die, argv[i++], error))
+		return ;
+	if (!ft_atoi((int *)&controllers->time_to_eat, argv[i++], error))
+		return ;
+	if (!ft_atoi((int *)&controllers->time_to_sleep, argv[i++], error))
+		return ;
+	if (argc != i)
+	{
+		if (!ft_atoi(&controllers->max_meal, argv[i++], error))
+			return ;
+	}
+	else
+		controllers->max_meal = 0;
+}
+
+/*
+ * This function initializes the main variable of the program - struct
+ * s_controllers 'controllers'.
+ *
+ * @line 38			It allocates the necessary space for the variable
+ * 					controllers using the ft_malloc() function.
+ * @line 40, 51		Parses the user's input given by the command line arguments.
+ * @line 52, 56		Initializes other struct variables inside controllers -
+ * 					fork, philo, thread, mutex_print - and sets the non-struct
+ *					variables to their default values.
+ *
+ * @param	int		argc	- argument counter.
+ * @param	char	*argv	- command line arguments.
+ *
+ * @return
+ * 		- The init_controllers() function returns the struct s_controllers
+ * 		variable already initialized to the main() function.
+*/
+t_ctrl	*init_controllers(int argc, char *argv[], t_error *error)
 {
 	int		i;
 	t_ctrl	*controllers;
 
-	controllers = (t_ctrl *)ft_malloc(sizeof(t_ctrl), error_message);
+	controllers = (t_ctrl *)ft_malloc(sizeof(t_ctrl), error, MALLOC_CTRL);
+	if (*error)
+		return (controllers);
 	i = 1;
-	controllers->nu_philo = ft_atoi(argv[i++]);
-	if (controllers->nu_philo == 0 || controllers->nu_philo > 200)
-		error_message(INVALID_ARGS_PHILO);
-	controllers->time_to_die = ft_atoi(argv[i++]);
-	controllers->time_to_eat = ft_atoi(argv[i++]);
-	controllers->time_to_sleep = ft_atoi(argv[i++]);
-	if (argc != i)
-		controllers->max_meal = ft_atoi(argv[i]);
-	else
-		controllers->max_meal = 0;
-	if (pthread_mutex_init(&(controllers->mutex_print), NULL))
-		exit_program(controllers, EXIT_MUTEX);
+	parsing(controllers, argc, argv, error);
+	if (*error)
+		return (controllers);
+	if (pthread_mutex_init(&(controllers->print), NULL))
+	{
+		*error = INIT_PRINT;
+		return (controllers);
+	}
 	controllers->death = false;
-	controllers->fork = init_fork(controllers);
+	controllers->fork = init_fork(controllers, error);
+	if (*error)
+		return (controllers);
 	controllers->start_time = get_current_time();
-	controllers->philo = init_philo(controllers);
+	controllers->philo = init_philo(controllers, error);
+	if (*error)
+		return (controllers);
 	return (controllers);
 }

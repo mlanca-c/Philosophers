@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 15:12:32 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 17:24:02 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:33:36 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,28 @@
 /*
 ** Error codes for exit_program() function.
 */
-# define NO_ERROR			0
-# define EXIT_MUTEX			1
-# define EXIT_THREAD		2
+# define MALLOC_CTRL		"failed at allocating memory - controllers.\n"
+# define INVALID_ARGS		"invalid arguments.\n"
+# define INIT_PRINT			"failed at initiating mutex - print.\n"
+# define MALLOC_FORK		"failed at allocating memory - fork.\n"
+# define MALLOC_PHILO		"failed at allocating memory - philosopher.\n"
+# define INIT_FORK			"failed at initiating mutex - fork.\n"
+# define MALLOC_THREAD		"failed at allocating memory - thread.\n"
+# define INIT_THREAD		"failed at initializing thread.\n"
 
 /*
-** Error messages for error_message() function.
+** This typedef char * represents an error  The options for this type are the
+** messages defined above.
 */
-# define MALLOC_ERROR		"failed at allocating memory.\n"
-# define INVALID_ARGS_NUM	"invalid arguments, wrong number of arguments.\n"
-# define INVALID_ARGS_MINUS	"invalid arguments, using negative numbers.\n"
-# define INVALID_ARGS_ALPHA	"invalid arguments, using non-integers arguments.\n"
-# define INVALID_ARGS_PHILO "invalid arguments, wrong number of philosophers.\n"
-# define INVALID_ARGS_ZERO	"invalid arguments, zero values not allowed.\n"
+typedef char	*t_error;
 
 /*
 ** Simulation messages for print_action() function.
 */
-# define FORK				"has taken a fork."
-# define EAT				"is eating."
-# define SLEEP				"is sleeping."
-# define THINK				"is thinking."
-# define DIE				"died."
+# define FORK				"has taken a fork"
+# define EAT				"is eating"
+# define SLEEP				"is sleeping"
+# define THINK				"is thinking"
+# define DIE				"died"
 
 #endif /* MESSAGE_H */

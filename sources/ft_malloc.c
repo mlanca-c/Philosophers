@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:23:52 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/22 18:36:16 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 16:52:32 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@
 ** 	void pointer with the allocated memory, if successful. In case of error the
 ** 	error_message() function is called and the program exits with EXIT_FAILURE.
 */
-void	*ft_malloc(int size, void (*error_message)(char *))
+void	*ft_malloc(int size, t_error *error, char *message)
 {
 	void	*alloc;
 
 	alloc = malloc(size);
 	if (!alloc)
-		error_message(MALLOC_ERROR);
+		*error = message;
 	return (alloc);
 }

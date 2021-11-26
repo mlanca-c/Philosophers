@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:24:59 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 17:20:06 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:36:55 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,30 @@
 ** @return
 ** 		- The ft_atoi() function returns the int representation of the string.
 */
-int	ft_atoi(char *str)
+int	ft_atoi(int *number, char *str, t_error *error)
 {
 	int	i;
 	int	plus;
-	int	number;
 
 	i = 0;
 	plus = 0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i++] == '-')
-			error_message(INVALID_ARGS_MINUS);
+			*error = INVALID_ARGS;
 		plus = 1;
 	}
+	i = plus;
 	while (str[i])
 		if (str[i] < '0' || str[i++] > '9')
-			error_message(INVALID_ARGS_ALPHA);
+			*error = INVALID_ARGS;
+	if (*error)
+		return (0);
 	i = plus;
-	number = 0;
+	*number = 0;
 	while (str[i] >= '0' && str[i] <= '9')
-		number = (number * 10) + (str[i++] - '0');
-	if (number == 0)
-		error_message(INVALID_ARGS_ZERO);
-	return (number);
+		*number = (*number * 10) + (str[i++] - '0');
+	if (*number == 0)
+		*error = INVALID_ARGS;
+	return (*number);
 }

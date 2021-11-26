@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 12:22:16 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 13:41:20 by mlanca-c         ###   ########.fr       */
+/*   Created: 2021/11/26 17:50:57 by mlanca-c          #+#    #+#             */
+/*   Updated: 2021/11/26 20:03:53 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ t_color	get_color(int id)
 ** 		- the init_philo() function returns a philo - struct s_fork - variable
 ** 		to the variable 'controllers'.
 */
-t_philo	*init_philo(t_ctrl *controllers)
+t_philo	*init_philo(t_ctrl *controllers, t_error *error)
 {
 	t_philo	*philo;
 	int		i;
 
 	philo = (t_philo *)ft_malloc(sizeof(t_philo) * controllers->nu_philo,
-			error_message);
+			error, MALLOC_PHILO);
+	if (*error)
+		return (philo);
 	i = 0;
 	while (i < controllers->nu_philo)
 	{
@@ -56,7 +58,7 @@ t_philo	*init_philo(t_ctrl *controllers)
 		philo[i].last_action = controllers->start_time;
 		philo[i].last_meal = controllers->start_time;
 		philo[i].nu_meal = 0;
-		philo[i].has_forks = false;
+		philo[i].fork = false;
 		philo[i].controllers = controllers;
 		i++;
 	}

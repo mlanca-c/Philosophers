@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 19:01:22 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 16:12:07 by mlanca-c         ###   ########.fr       */
+/*   Created: 2021/11/26 17:48:08 by mlanca-c          #+#    #+#             */
+/*   Updated: 2021/11/26 17:55:29 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,24 @@
 ** 		- the init_fork() function returns a fork - struct s_fork - variable to
 ** 		the variable 'controllers'.
 */
-t_fork	*init_fork(t_ctrl *controllers)
+t_fork	*init_fork(t_ctrl *controllers, t_error *error)
 {
 	t_fork	*fork;
 	int		i;
 
 	fork = (t_fork *)ft_malloc(sizeof(t_fork) * controllers->nu_philo,
-			error_message);
+			error, MALLOC_FORK);
+	if (*error)
+		return (fork);
 	i = 0;
 	while (i < controllers->nu_philo)
 	{
 		fork[i].used = false;
-		if (pthread_mutex_init(&(fork[i++].mutex_fork), NULL))
+		if (pthread_mutex_init(&(fork[i++].mutex), NULL))
 		{
 			while (i)
-				pthread_mutex_destroy(&(fork[--i].mutex_fork));
-			exit_program(controllers, EXIT_MUTEX);
+				pthread_mutex_destroy(&(fork[--i].mutex));
+			*error = INIT_FORK;
 		}
 	}
 	return (fork);

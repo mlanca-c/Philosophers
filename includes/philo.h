@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/25 16:49:49 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 20:03:16 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ typedef unsigned int	t_ms;
 ** 	- philo (list t_philo) : list of philosophers.
 ** 	- fork (list t_fork) : list of forks.
 ** 	- thread (list pthread_t) : list of threads.
-** 	- mutex_print (pthread_mutex_t) : protects status printed when a philosopher
-** 									is printing an action so that it doesn't get
-** 									scrambled with another philosopher's
-** 									printing.
+** 	- print (pthread_mutex_t) : protects status printed when a philosopher is
+** 								printing an action so that it doesn't get
+** 								scrambled with another philosopher's printing.
 */
 typedef struct s_controllers
 {
@@ -59,21 +58,21 @@ typedef struct s_controllers
 	struct s_philo	*philo;
 	struct s_fork	*fork;
 	pthread_t		*thread;
-	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	print;
 }	t_ctrl;
 
 /*
 ** This struct represents the fork each philosopher has by the table.
 ** The struct s_fork contains the following variables:
-** 		- mutex_fork (pthread_mutex_t) : mutex that protects the fork's status -
-** 										when a philosopher grabs the fork,
-** 										this mutex is locked not letting  other
-** 										philosophers do the same.
+** 		- mutex (pthread_mutex_t) : mutex that protects the fork's status -
+** 									when a philosopher grabs the fork,
+** 									this mutex is locked not letting  other
+** 									philosophers do the same.
 ** 		- used (bool) : boolean indicating if the fork is being used.
 */
 typedef struct s_fork
 {
-	pthread_mutex_t	mutex_fork;
+	pthread_mutex_t	mutex;
 	bool			used;
 }	t_fork;
 
@@ -85,8 +84,7 @@ typedef struct s_fork
 ** 		- last_action (t_ms) : time of the last action the philosopher take.
 ** 		- last_meal (t_ms) : time of the last meal the philosopher take.
 ** 		- nu_meal (int) : number of meals the philosopher already take.
-**		- has_forks (bool) : boolean indicating if the philosopher has both
-**							forks.
+**		- fork (bool) : boolean indicating if the philosopher has both forks.
 ** 		- controllers (t_ctrl *) : controllers - struct t_ctrl * - variable.
 */
 typedef struct s_philo
@@ -96,38 +94,38 @@ typedef struct s_philo
 	t_ms	last_action;
 	t_ms	last_meal;
 	int		nu_meal;
-	bool	has_forks;
+	bool	fork;
 	t_ctrl	*controllers;
 }	t_philo;
 
 /*
 ** command_utils.c Functions
 */
-void	help_message(void);
-void	error_message(char *message);
-void	exit_program(t_ctrl *controllers, int message);
+int		help_message(void);
+int		error_message(char *message);
+int		exit_program(t_ctrl *controllers, char *error);
 
 /*
 **  libft Functions
 */
-void	*ft_malloc(int size, void (*error_message)(char *));
+void	*ft_malloc(int size, t_error *error, char *message);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_atoi(char *str);
+int		ft_atoi(int *number, char *str, t_error *error);
 
 /*
 ** controllers.c Function
 */
-t_ctrl	*init_controllers(int argc, char *argv[]);
+t_ctrl	*init_controllers(int argc, char *argv[], t_error *error);
 
 /*
 ** fork.c Function
 */
-t_fork	*init_fork(t_ctrl *controllers);
+t_fork	*init_fork(t_ctrl *controllers, t_error *error);
 
 /*
 ** philo.c Function
 */
-t_philo	*init_philo(t_ctrl *controllers);
+t_philo	*init_philo(t_ctrl *controllers, t_error *error);
 
 /*
 ** time.c Functions
@@ -139,14 +137,14 @@ void	ft_wait(t_ms time, t_philo *philo);
 /*
 ** thread.c Functions
 */
-void	init_thread(t_ctrl *controllers);
-void	init_threads(t_ctrl *controllers);
-void	remove_thread(t_ctrl *controllers);
+void	init_thread(t_ctrl *controllers, t_error *error);
+void	init_threads(t_ctrl *controllers, t_error *error);
+void	join_threads(t_ctrl *controllers);
 
 /*
 ** simulation.c Functions
 */
-bool	check_dead(t_philo *philo);
+void	is_dead(t_philo *philo);
 void	*simulation_one_phiosopher(void *args);
 void	*simulation(void *args);
 
@@ -154,13 +152,14 @@ void	*simulation(void *args);
 ** print_action.c Function
 */
 void	print_action(char *action, t_philo *philo);
+void	fprint_action(char *action, t_philo *philo, int fork);
 
 /*
 ** actions.c Functions
 */
-void	philo_take_forks(t_philo *philo, int fork_1, int fork_2);
-void	philo_eat(t_philo *philo);
-void	philo_leave_fork(t_philo *philo, int fork_1, int fork_2);
-void	philo_sleep(t_philo *philo);
+void	take_forks(t_philo *philo, int one, int two);
+void	eat(t_philo *philo);
+void	leave_forks(t_philo *philo, int one, int two);
+void	sleep(t_philo *philo);
 
 #endif /* PHILO_H */

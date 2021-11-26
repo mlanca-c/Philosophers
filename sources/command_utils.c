@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:46:19 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/23 17:55:36 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:18:51 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 ** This will display to the user the desired input for the program. The function
 ** then exits the program with EXIT_SUCCESS.
 */
-void	help_message(void)
+int	help_message(void)
 {
 	printf("\n[ " GREEN "ok" RESET " ]:\t\t");
 	printf("./philo 1 800 200 200 7\n");
 	printf("[ " GREEN "format" RESET " ]:\t");
 	printf("./philo <nu_philo> <time_to_die> <time_to_eat> ");
 	printf("<time_to_sleep> [max_meal]\n");
-	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -39,11 +39,11 @@ void	help_message(void)
 **
 ** @param	char	*message	- message to be displayed to the user.
 */
-void	error_message(char *message)
+int	error_message(char *message)
 {
 	printf("\n[ " RED "philosophers" RESET " ]: %s", message);
 	printf("[ "RED "info" RESET " ]: ./philo --help\n");
-	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 /*
@@ -52,17 +52,23 @@ void	error_message(char *message)
 ** The function frees all allocated memory and destroys all threads and mutex.
 ** Finally, it exits the program with EXIT_SUCCESS.
 */
-void	exit_program(t_ctrl *controllers, int message)
+int	exit_program(t_ctrl *controllers, char *error)
 {
-	if (message != EXIT_MUTEX)
-	{
-		free(controllers->fork);
-		free(controllers->philo);
-	}
-	if (message != EXIT_THREAD)
+	if (!error || !ft_strcmp(error, INIT_THREAD))
 		free(controllers->thread);
-	free(controllers);
-	if (message == NO_ERROR)
-		exit(EXIT_SUCCESS);
-	exit(EXIT_FAILURE);
+	if (!error || !ft_strcmp(error, MALLOC_THREAD)
+		|| !ft_strcmp(error, INIT_THREAD))
+		free(controllers->philo);
+	if (!error || !ft_strcmp(error, MALLOC_PHILO)
+		|| !ft_strcmp(error, INIT_FORK) || !ft_strcmp(error, MALLOC_THREAD)
+		|| !ft_strcmp(error, INIT_THREAD))
+		free(controllers->fork);
+	if (!error || !ft_strcmp(error, INVALID_ARGS)
+		|| !ft_strcmp(error, INIT_PRINT) || !ft_strcmp(error, MALLOC_FORK)
+		|| !ft_strcmp(error, MALLOC_PHILO) || !ft_strcmp(error, INIT_FORK)
+		|| !ft_strcmp(error, MALLOC_THREAD) || !ft_strcmp(error, INIT_THREAD))
+		free(controllers);
+	if (!error)
+		return (EXIT_SUCCESS);
+	return (error_message(error));
 }
