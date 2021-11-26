@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 20:03:16 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 21:43:00 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_philo
 ** command_utils.c Functions
 */
 int		help_message(void);
-int		error_message(char *message);
+int		error_message(char *error);
 int		exit_program(t_ctrl *controllers, char *error);
 
 /*
@@ -140,6 +140,7 @@ void	ft_wait(t_ms time, t_philo *philo);
 void	init_thread(t_ctrl *controllers, t_error *error);
 void	init_threads(t_ctrl *controllers, t_error *error);
 void	join_threads(t_ctrl *controllers);
+void	destroy_threads(t_ctrl *controllers);
 
 /*
 ** simulation.c Functions
@@ -152,7 +153,6 @@ void	*simulation(void *args);
 ** print_action.c Function
 */
 void	print_action(char *action, t_philo *philo);
-void	fprint_action(char *action, t_philo *philo, int fork);
 
 /*
 ** actions.c Functions
