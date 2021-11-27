@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:55:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 23:49:12 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/27 00:19:02 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_ctrl	*init_controllers(int argc, char *argv[], t_error *error)
 	controllers->fork = init_fork(controllers, error);
 	if (*error)
 		return (controllers);
-	controllers->start_time = get_current_time();
+	controllers->start_time = get_curr_time();
 	controllers->philo = init_philo(controllers, error);
 	if (*error)
 		return (controllers);

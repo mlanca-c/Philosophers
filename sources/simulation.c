@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:21:21 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/27 00:03:14 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/27 00:20:22 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	*simulation_one_phiosopher(void *args)
 */
 void	is_dead(t_philo *philo)
 {
-	if (get_time(philo->last_meal) > philo->controllers->time_to_die)
+	if ((get_curr_time() - philo->last_meal) > philo->controllers->time_to_die)
 	{
 		pthread_mutex_lock(&(philo->controllers->print));
 		if (!philo->controllers->death)
 		{
 			philo->controllers->death = true;
-			printf("%8ums", get_time(philo->controllers->start_time));
+			printf("%8ums", get_curr_time() - philo->controllers->start_time);
 			printf("%4d \t\t", philo->id);
 			printf(FRED"%-.20s\n" RESET, DIE);
 		}

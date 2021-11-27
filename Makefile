@@ -199,6 +199,7 @@ run_invalid_arg: re cl
 
 .PHONY: run
 run: re cl
+	${AT}printf "\n./philo ${RUN} ...................... ${_SUCCESS}\n" ${BLOCK}
 	${AT} ./${NAME1} ${RUN} ${BLOCK}
 
 # **************************************************************************** #

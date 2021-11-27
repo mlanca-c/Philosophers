@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 23:51:38 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/27 00:18:46 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,7 @@ t_philo	*init_philo(t_ctrl *controllers, t_error *error);
 /*
 ** time.c Functions
 */
-t_ms	get_current_time(void);
-t_ms	get_time(t_ms action);
+t_ms	get_curr_time(void);
 void	ft_usleep(t_ms time, t_philo *philo);
 
 /*
