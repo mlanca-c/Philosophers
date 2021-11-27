@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:48:08 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 17:55:29 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 21:59:02 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /*
 ** This function initializes the 'fork' - struct s_fork - variable in
 ** 'controllers'.
-** It allocates the necessary space for the variable. It sets 'philo_id' to it's
-** default - 0 - and then initializes the 'mutex_fork' using the
+** It allocates the necessary space for the variable. It sets 'used' to it's
+** default - false - and then initializes the 'mutex_fork' using the
 ** pthread_mutex_init() function.
 **
 ** @param	t_ctrl	*controllers	- main variable of the program. Its use in
@@ -26,6 +26,11 @@
 ** 									then exit_program() function is called with
 ** 									controllers as its argument so that it can
 ** 									be properly freed.
+** @param	t_error	*error	- variable address of an error - typedef char *.
+** 							In case of error, this variable will stop being null
+** 							and the function will end. The exit_program()
+** 							function will then be called and 'error' will be
+** 							displayed in the command line.
 **
 ** @return
 ** 		- the init_fork() function returns a fork - struct s_fork - variable to

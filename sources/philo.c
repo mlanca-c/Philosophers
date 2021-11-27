@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:50:57 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 20:03:53 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 22:01:08 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ t_color	get_color(int id)
 ** variables to default.
 **
 ** @param	t_ctrl	*controllers	- main variable of the program.
+** @param	t_error	*error	- variable address of an error - typedef char *.
+** 							In case of error, this variable will stop being null
+** 							and the function will end. The exit_program()
+** 							function will then be called and 'error' will be
+** 							displayed in the command line.
 **
 ** @return
 ** 		- the init_philo() function returns a philo - struct s_fork - variable

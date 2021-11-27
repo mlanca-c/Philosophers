@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:24:59 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 17:36:55 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 23:29:12 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 ** by str to int representation.
 **
 ** @param	const char	*str	- string to be converted to int.
+** @param	int			*number	- integer resuling in the conversion of 'str'.
+** @param	t_error	*error	- variable address of an error - typedef char *.
+** 							In case of error, this variable will stop being null
+** 							and the function will end. The exit_program()
+** 							function will then be called and 'error' will be
+** 							displayed in the command line.
 **
 ** @return
 ** 		- The ft_atoi() function returns the int representation of the string.

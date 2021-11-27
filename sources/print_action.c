@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:31:15 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 20:27:46 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 22:18:49 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,8 @@ void	print_action(char *action, t_philo *philo)
 	}
 	if (ft_strcmp(action, FORK))
 		philo->last_action = get_current_time();
-	printf("|%ums\t", get_time(philo->controllers->start_time));
-	printf("|%s%5d " RESET, philo->color, philo->id);
-	printf("|%s\n", action);
-	pthread_mutex_unlock(&(philo->controllers->print));
-}
-
-void	fprint_action(char *action, t_philo *philo, int fork)
-{
-	if (ft_strcmp(action, FORK))
-		philo->last_action = get_current_time();
-	pthread_mutex_lock(&(philo->controllers->print));
-	printf("|%ums\t", get_time(philo->controllers->start_time));
-	printf("|%s%5d " RESET, philo->color, philo->id);
-	printf("|%s %d\n", action, fork);
+	printf("%8ums", get_time(philo->controllers->start_time));
+	printf("%s%4d \t\t", philo->color, philo->id);
+	printf("%-.20s\n" RESET, action);
 	pthread_mutex_unlock(&(philo->controllers->print));
 }

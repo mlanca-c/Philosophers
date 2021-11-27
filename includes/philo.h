@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:21:01 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 21:43:00 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/11/26 23:51:38 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <stdbool.h>
 # include "color.h"
 # include "message.h"
+
+# ifndef MAX_PHILO
+#  define MAX_PHILO	200
+# endif
 
 /*
 ** This typedef is an unsigned int that represents the milliseconds.
@@ -132,7 +136,7 @@ t_philo	*init_philo(t_ctrl *controllers, t_error *error);
 */
 t_ms	get_current_time(void);
 t_ms	get_time(t_ms action);
-void	ft_wait(t_ms time, t_philo *philo);
+void	ft_usleep(t_ms time, t_philo *philo);
 
 /*
 ** thread.c Functions
