@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:55:25 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/27 00:19:02 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:12:25 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,11 @@ void	parsing(t_ctrl *controllers, int argc, char *argv[], t_error *error)
 */
 t_ctrl	*init_controllers(int argc, char *argv[], t_error *error)
 {
-	int		i;
 	t_ctrl	*controllers;
 
 	controllers = (t_ctrl *)ft_malloc(sizeof(t_ctrl), error, MALLOC_CTRL);
 	if (*error)
 		return (controllers);
-	i = 1;
 	parsing(controllers, argc, argv, error);
 	if (*error)
 		return (controllers);

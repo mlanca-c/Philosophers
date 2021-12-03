@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 17:46:19 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 21:42:06 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:20:19 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,7 @@ void	destroy_mutex(t_ctrl *controllers)
 int	exit_program(t_ctrl *controllers, char *error)
 {
 	if (!error || !ft_strcmp(error, INIT_THREAD))
-	{
-		destroy_threads(controllers);
 		free(controllers->thread);
-	}
 	if (!error || !ft_strcmp(error, MALLOC_THREAD)
 		|| !ft_strcmp(error, INIT_THREAD))
 		free(controllers->philo);

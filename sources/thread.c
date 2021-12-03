@@ -6,7 +6,7 @@
 /*   By: mlanca-c <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:03:57 by mlanca-c          #+#    #+#             */
-/*   Updated: 2021/11/26 23:27:54 by mlanca-c         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:19:48 by mlanca-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,28 +89,8 @@ void	init_threads(t_ctrl *controllers, t_error *error)
 void	join_threads(t_ctrl *controllers)
 {
 	int		i;
-	t_error	error;
 
 	i = 0;
-	error = NULL;
 	while (i < controllers->nu_philo)
 		pthread_join(controllers->thread[i++], NULL);
-}
-
-/*
-** This function destroys all threads created either by the init_thread() or
-** init_threads() function.
-** This function is called once the program is ready to end and all the threads
-** are of no use and are finished. The destroy_threads() function will then make
-** use of pthread_detach() function from the C library to destroy all threads.
-**
-** @param	t_ctrl	*controllers	- main variable of the program.
-*/
-void	destroy_threads(t_ctrl *controllers)
-{
-	int	i;
-
-	i = 0;
-	while (i < controllers->nu_philo)
-		pthread_detach(controllers->thread[i++]);
 }
